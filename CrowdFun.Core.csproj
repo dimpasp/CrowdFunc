@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="model\data\" />
   </ItemGroup>
 
 </Project>

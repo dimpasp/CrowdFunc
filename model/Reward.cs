@@ -11,10 +11,10 @@ namespace CrowdFun.Core.model
             public string Description { get; set; }
             public float Value { get; set; }
             public Backers backers { get; set; }
-            public ICollection<BackerReward> Backre { get; set; }
+            public ICollection<BackerReward> Backer { get; set; }
             public Reward()
             {
-                Backre = new List<BackerReward>();
+                Backer = new List<BackerReward>();
             }
         }
 }

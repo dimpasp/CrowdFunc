@@ -6,7 +6,7 @@ using CrowdFun.Core.model.options;
 
 namespace CrowdFun.Core.model.services
 {
-    public class BackerServices : IBackerService
+    public class BackerServices: IBackerService
 
     {
         private readonly data.CrowdFunDbContext context_;
@@ -48,7 +48,7 @@ namespace CrowdFun.Core.model.services
             return backer_;
         }
 
-        public IQueryable<Project> SearchProject(SearchProgramme options,int id)
+        public IQueryable<Project> SearchProject(SearchProjects options,int id)
         {
             var project_ = context_
                .Set<Project>()

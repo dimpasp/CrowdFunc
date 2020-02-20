@@ -60,6 +60,9 @@ namespace CrowdFun.Core.data
                 .Entity<Creator>()
                 .HasIndex(v => v.Id)
                 .IsUnique();
+            modelBuilder
+              .Entity<BackerReward>()
+              .HasKey(op => new { op.BackerId, });
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
