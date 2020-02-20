@@ -8,6 +8,7 @@ namespace CrowdFun.Core.model.services
 {
     public class CreatorServices : ICreatorService
     {
+        private readonly data.CrowdFunDbContext context_;
         public bool AddCreator(AddNewCreatorOptions options)
         {
             throw new NotImplementedException();
@@ -20,30 +21,46 @@ namespace CrowdFun.Core.model.services
 
         public Creator CreateNewCreator(AddNewCreatorOptions options)
         {
-            throw new NotImplementedException();
+            if (options == null) {
+                return null;
+            }
+            if (string.IsNullOrWhiteSpace(options.Password) ||
+              string.IsNullOrWhiteSpace(options.Email)) {
+                return null;
+            }
+            var new_Creator = new Creator()
+            {
+            };
+            context_.Add(new_Creator);
+            try {
+                context_.SaveChanges();
+            } catch (Exception ex) {
+
+                throw new Exception("you have rong");
+            }
+
+            return new_Creator;
         }
 
-        public IQueryable<Creator> SearchCreator(SearchProgramme options)
+        public IQueryable<Creator> SearchCreator(SearchProjects options)
         {
-            throw new NotImplementedException();
-        }
+            var Creator_ = context_
+           .Set<Creator>()
+           .AsQueryable();
 
-        public ICollection<Creator> SearchCreator_(SearchProject options)
-        {
-            throw new NotImplementedException();
+            if (options == null) {
+                return null;
+            } else if (string.IsNullOrWhiteSpace(options.Title)) {
+                return null;
+            }
+            return Creator_;
         }
-
-        public Creator SearchOwnerById(int ownerId)
+        public IQueryable<Creator> SearchOwnerById(int id)
         {
             throw new NotImplementedException();
         }
 
         public bool UpdateCreator_(int id, UpdateCreator options)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateOwner(int id, UpdateCreator options)
         {
             throw new NotImplementedException();
         }

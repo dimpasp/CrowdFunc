@@ -30,7 +30,6 @@ namespace CrowdFun.Core.model.services
             }
             var new_project = new Project()
             {
-
             };
             context_.Add(new_project);
             try {
@@ -64,7 +63,7 @@ namespace CrowdFun.Core.model.services
 
         }
 
-        public IQueryable<Project> SearchProject(SearchProgramme options,int id)
+        public IQueryable<Project> SearchProject(SearchProjects options,int id)
         {
             var project_ = context_
              .Set<Project>()
