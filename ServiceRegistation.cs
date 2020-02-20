@@ -11,6 +11,9 @@ namespace CrowdFun.Core
         public static IContainer GetContainer()
         {
             var builder = new ContainerBuilder();
+            if (builder == null) {
+                throw new ArgumentNullException(nameof(builder));
+            }
 
             builder
                 .RegisterType<BackerServices>()

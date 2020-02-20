@@ -9,7 +9,7 @@ namespace CrowdFun.Core {
         public string ErrorText { get; set; }
         public T Data { get; set; }
         public bool Success => ErrorCode == StatusCode.Ok;
-
+       
         public ApiResult()
         { }
 

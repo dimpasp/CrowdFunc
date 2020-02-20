@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using CrowdFun.Core.model.options;
 
@@ -11,9 +12,9 @@ namespace CrowdFun.Core.model.services
 
         bool UpdateBacker(int id, UpdateBacker options);
 
-        ICollection<Backers> SearchBacker(SearchBaker options);
+        IQueryable<Backers> SearchBacker(SearchBaker options);
 
-        ICollection<Project> SelectProject(int projectid);
+        IQueryable<Project> SearchProject(SearchProgramme options,int id);
 
     }
 }
