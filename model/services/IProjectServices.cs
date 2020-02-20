@@ -7,13 +7,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace CrowdFun.Core.model.services {
      public interface IProjectServices
      {
-        IQueryable<Project> SearchProject(SearchProgramme options);
+        IQueryable<Project> SearchProject(SearchProgramme options,int id);
         IQueryable<Project> SearchProjectByCategory(ProjectsCategory options);
-        bool BuyProject(int projectId, int backerId, int rewardId);
+        Project GettingProject(int projectId, int backerId, int rewardId);
 
-        public int GetProjectId(string title);
+        public int GetProjectById(string title);
 
-        bool UpdateCustomerProject(int id, UpdateProjectsOptions options);
         bool ChangeProjectStatus(int Id,StatusCode Status);
         Project CreateProject(int Id,AddProjects  options);
     }

@@ -5,10 +5,10 @@ using CrowdFun.Core.model.options;
 namespace CrowdFun.Core.model.services
 {
     public class ProjectServices : IProjectServices
-
     {
+
         private readonly data.CrowdFunDbContext context_;
-        public bool BuyProject(int projectId, int backerId, int rewardId)
+        public Project GettingProject(int projectId, int backerId, int rewardId)
         {
             throw new NotImplementedException();
         }
@@ -20,42 +20,81 @@ namespace CrowdFun.Core.model.services
 
         public Project CreateProject(int Id, AddProjects options)
         {
-            throw new NotImplementedException();
+            if (options == null || options.Project_Category<=0) {
+                return null;
+            }
+
+            if (string.IsNullOrWhiteSpace(options.ProjectTitle) ||
+              string.IsNullOrWhiteSpace(options.Description)) {
+                return null;
+            }
+            var new_project = new Project()
+            {
+
+            };
+            context_.Add(new_project);
+            try {
+                context_.SaveChanges();
+            } catch (Exception ex) {
+
+                throw new Exception("lathos");
+            }
+
+            return new_project;
         }
 
-        public int GetProjectId(string title)
+        public int GetProjectById(string title)
         {
             if (string.IsNullOrWhiteSpace(title)) {
                 return 0;
             }
-            var query = context_
+            var project_ = context_
                 .Set<Project>()
                 .AsQueryable();
 
-            query = query.Where(c =>
-                    c.Tittle == title);
+            project_ = project_.Where(c =>
+                     c.Tittle == title);
 
-            var project = query.SingleOrDefault();
-            if (project == null) {
+            var returnProject = project_.SingleOrDefault();
+            if (returnProject == null) {
                 return 0;
             } else {
-                return project.id;
+                return returnProject.id;
             }
+
         }
 
-        public IQueryable<Project> SearchProject(SearchProgramme options)
+        public IQueryable<Project> SearchProject(SearchProgramme options,int id)
         {
-            throw new NotImplementedException();
-        }
+            var project_ = context_
+             .Set<Project>()
+             .AsQueryable();
 
+            if (options ==null || id<0) {
+                return null;   
+            }else if (string.IsNullOrWhiteSpace(options.Title)) {
+                return null;
+            }else if (!string.IsNullOrWhiteSpace(options.Title)) {
+                project_ = project_.Where();
+            }
+                return project_;      
+        }
+       
         public IQueryable<Project> SearchProjectByCategory(ProjectsCategory options)
         {
-            throw new NotImplementedException();
+            var project_ = context_
+              .Set<Project>()
+              .AsQueryable();
+
+            bool exist = false;
+
+            if (options != 0) {
+                project_ = project_.Where();
+            }
+
+            return project_;
         }
 
-        public bool UpdateCustomerProject(int id, UpdateProjectsOptions options)
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }
