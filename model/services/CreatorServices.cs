@@ -10,17 +10,6 @@ namespace CrowdFun.Core.model.services
     public class CreatorServices : ICreatorService
     {
         private readonly data.CrowdFunDbContext context_;
-    
-        public bool AddReward(int Id, Reward reward)
-        {
-            if (reward == null) {
-                return false;
-            }           
-            var creator = SearchCreatorId(Id);
-           // creator.Reward.Add(reward);
-            return true;
-        }
-
         public async Task<ApiResult<Creator>> CreateNewCreatorAsync(AddNewCreatorOptions options)
         {
             //kai enan elegxo na kanw gia an uparxei
@@ -56,9 +45,6 @@ namespace CrowdFun.Core.model.services
                 Data = new_Creator
             };
         }
-
-     
-
         public IQueryable<Creator> SearchCreator(SearchProjects options)
         {
             var Creator_ = context_
@@ -73,17 +59,24 @@ namespace CrowdFun.Core.model.services
             return Creator_;
         }
 
-        public Creator SearchCreatorId(int Id)
+        public Creator SearchCreatorById(int Id)
         {
-            throw new NotImplementedException();
+            if (Id <= 0) {
+                return null;
+            }
+
+            return context_
+                .Set<Creator>()
+                .SingleOrDefault(s => s.Id == Id);
         }
 
-        public bool UpdateCreator(int id, UpdateBacker options)
+        public bool UpdateCreator(int id, UpdateCreator options)
         {
-            var creator = SearchCreatorId(id);
+            var creator = SearchCreatorById(id);
             var built = false;
-            if ((id<0)||
-                (options == null)) {
+            if ((id<=0)||
+                (options == null)||
+                (creator==null)) {
                 return false;
             }
             if (!string.IsNullOrWhiteSpace(options.FirstName)) {
@@ -95,6 +88,9 @@ namespace CrowdFun.Core.model.services
             if (!string.IsNullOrWhiteSpace(options.Password)) {
                 creator.Password = options.Password;
             }
+            if (creator == null) {
+
+            }
             try {
                 built = context_.SaveChanges() > 0;
             } catch (Exception ex) {
@@ -103,3 +99,69 @@ namespace CrowdFun.Core.model.services
         }
     }
 }
+ //if(user == null) {
+ //               return new ApiResult<User>()
+ //               {
+ //                   ErrorCode = StatusCode.NotFound,
+ //                   ErrorText = $"User Id not found in database"
+ //               };
+ //           }
+
+ //           if (!string.IsNullOrWhiteSpace(options.UserEmail)) {
+ //               var emailCheck = SearchUser(new SearchUserOptions()
+ //               {
+ //                   UserEmail = options.UserEmail
+ //               }).SingleOrDefault();
+
+ //               if(emailCheck == null) {
+ //                   user.UserEmail = options.UserEmail;
+ //               } else {
+ //                   return new ApiResult<User>()
+ //                   {
+ //                       ErrorCode = StatusCode.Conflict,
+ //                       ErrorText = $"Email already found in database"
+ //                   };
+ //               }
+ //           }
+
+ //           if (!string.IsNullOrWhiteSpace(options.UserFirstName)) {
+ //               user.UserFirstName = options.UserFirstName;
+ //           }            
+            
+ //           if (!string.IsNullOrWhiteSpace(options.UserLastName)) {
+ //               user.UserLastName = options.UserLastName;
+ //           }            
+            
+ //           if (!string.IsNullOrWhiteSpace(options.UserPhone)) {
+ //               user.UserPhone = options.UserPhone;
+ //           }            
+            
+ //           if (!string.IsNullOrWhiteSpace(options.UserVat)) {
+ //               user.UserVat = options.UserVat;
+ //           }
+
+ //           context.Update(user);
+
+ //           var success = false;
+
+ //           try {
+ //               success = await context.SaveChangesAsync() > 0;
+ //           } catch (Exception e) {
+ //               return new ApiResult<User>()
+ //               {
+ //                   ErrorCode = StatusCode.InternalServerError,
+ //                   ErrorText = $"Something went wrong, user not updated. {e}"
+ //               };
+ //           }
+
+ //           if (success) {
+ //               return ApiResult<User>.CreateSuccess(user);
+ //           } else {
+ //               return new ApiResult<User>()
+ //               {
+ //                   ErrorCode = StatusCode.InternalServerError,
+ //                   ErrorText = "Something went wrong, user not updated"
+ //               };
+ //           }
+ //       }
+
