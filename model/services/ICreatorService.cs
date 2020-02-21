@@ -4,7 +4,7 @@ namespace CrowdFun.Core.model.services
 {
     public interface ICreatorService
     {
-        Creator CreateNewCreator(AddNewCreatorOptions options);
+        Creator CreateNewCreator(AddNewCreatorOptions options);      
 
         public IQueryable<Creator> SearchCreator(SearchProjects options);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using CrowdFun.Core.model.options;
 
 namespace CrowdFun.Core.model.services
@@ -10,7 +11,8 @@ namespace CrowdFun.Core.model.services
 
     {
         private readonly data.CrowdFunDbContext context_;
-        public Backers AddBackerNew(AddNewBackerOptions options)
+        public async Task<ApiResult< Backers>> AddBackerNewAsync(AddNewBackerOptions options)  
+         
         {
             if (options == null) {
                 return null;
