@@ -8,7 +8,9 @@ namespace CrowdFun.Core.model.services
 
         public IQueryable<Creator> SearchCreator(SearchProjects options);
 
-        bool AddReward(int ownerId, Reward reward);
+        bool AddReward(int Id, Reward reward);
+        public bool UpdateBacker(int id, UpdateBacker options);
 
     }
 }
+
