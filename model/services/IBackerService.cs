@@ -12,9 +12,16 @@ namespace CrowdFun.Core.model.services
 
         public bool UpdateBacker(int id, UpdateBacker options);
 
-        Backers SearchBacker(SearchBaker options);
+        Backers SearchBackerId(int id);
 
-        IQueryable<Project> SearchBackerId(int id);
+        public IQueryable<Backers> SearchBacker(SearchBaker options);
+
 
     }
 }
+
+
+
+
+
+

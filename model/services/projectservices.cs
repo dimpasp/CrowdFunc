@@ -73,9 +73,9 @@ namespace CrowdFun.Core.model.services
                 return null;   
             }else if (string.IsNullOrWhiteSpace(options.Title)) {
                 return null;
-            }else if (!string.IsNullOrWhiteSpace(options.Title)) {
-                project_ = project_.Where();
-            }
+            }//else if (!string.IsNullOrWhiteSpace(options.Title)) {
+            //    project_ = project_.Where();
+            //}
                 return project_;      
         }
        
@@ -87,9 +87,9 @@ namespace CrowdFun.Core.model.services
 
             bool exist = false;
 
-            if (options != 0) {
-                project_ = project_.Where();
-            }
+            //if (options != 0) {
+            //    project_ = project_.Where();
+            //}
 
             return project_;
         }
