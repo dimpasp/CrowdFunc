@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace CrowdFun.Core {
-    class ApiResult<T>
+    public class ApiResult<T>
      {
         public StatusCode ErrorCode { get; set; }
         public string ErrorText { get; set; }
