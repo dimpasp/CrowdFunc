@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CrowdFun.Core.model.options
 {
-    public class SearchProgramme
+    public class SearchProjects
     {
         
         public int Id { get; set; }

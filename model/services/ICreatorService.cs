@@ -6,11 +6,7 @@ namespace CrowdFun.Core.model.services
     {
         Creator CreateNewCreator(AddNewCreatorOptions options);
 
-        public IQueryable<Creator> SearchCreator(SearchProgramme options);
-
-        Creator SearchOwnerById(int ownerId);
-
-        bool UpdateOwner(int id, UpdateCreator options);
+        public IQueryable<Creator> SearchCreator(SearchProjects options);
 
         bool AddReward(int ownerId, Reward reward);
 

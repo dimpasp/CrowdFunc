@@ -10,7 +10,7 @@ namespace CrowdFun.Core.model.services
     {
         Backers AddBackerNew(AddNewBackerOptions options);
 
-        bool UpdateBacker(int id, UpdateBacker options);
+        public bool UpdateBacker(int id, UpdateBacker options);
 
         Backers SearchBacker(SearchBaker options);
 

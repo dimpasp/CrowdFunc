@@ -6,7 +6,7 @@ using CrowdFun.Core.model.options;
 
 namespace CrowdFun.Core.model.services
 {
-    public class BackerServices : IBackerService
+    public class BackerServices: IBackerService
 
     {
         private readonly data.CrowdFunDbContext context_;
