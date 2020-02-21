@@ -40,11 +40,9 @@ namespace CrowdFun.Core.model.services
                     StatusCode.InternalServerError, "Could not save creator");
             }
 
-            return new ApiResult<Backers>()
-            {
-                ErrorCode = StatusCode.Ok,
-                Data = new_backer
-            };
+        public Task<ApiResult<Backers>> AddBackerNewAsync(AddNewBackerOptions options)
+        {
+            throw new NotImplementedException();
         }
 
         public IQueryable<Backers> SearchBacker(SearchBaker options)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CrowdFun.Core.model;
 
 namespace CrowdFun.Core {
     public class ApiResult<T>
@@ -39,5 +40,9 @@ namespace CrowdFun.Core {
                 ErrorCode = StatusCode.Ok
             };
         }
-}
+        internal static ApiResult<Creator> CreateSuccess()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
