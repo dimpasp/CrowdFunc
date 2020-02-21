@@ -10,9 +10,29 @@ namespace CrowdFun.Core.model.services
 
     {
         private readonly data.CrowdFunDbContext context_;
-        public bool AddBackerNew(AddNewBackerOptions options)
+        public Backers AddBackerNew(AddNewBackerOptions options)
         {
-            throw new NotImplementedException();
+            if (options == null) {
+                return null;
+            }
+
+            if (string.IsNullOrWhiteSpace(options.FirstName) ||
+                string.IsNullOrWhiteSpace(options.LastName) ||
+                string.IsNullOrWhiteSpace(options.Email) ||
+                string.IsNullOrWhiteSpace(options.Id)||
+                string.IsNullOrWhiteSpace(options.Password)){
+                return null;
+            }
+            var backer = new Backers()
+            {
+                FirstName = options.FirstName,
+                LastName = options.LastName,
+                Id = options.Id,
+                Password = options.Password,
+                Email = options.Email         
+            };
+            context_.Add(backer);
+            return backer;
         }
 
         public IQueryable<Backers> SearchBacker(SearchBaker options)
@@ -48,26 +68,29 @@ namespace CrowdFun.Core.model.services
             return backer_;
         }
 
-        public IQueryable<Project> SearchProject(SearchProgramme options,int id)
+        public Backers SearchBackerId(int id)
         {
-            var project_ = context_
-               .Set<Project>()
-               .AsQueryable();
+            var backer_ = context_
+               .Set<Backers>();
+               //.SingleOrDefault(s => s.Id==id);
 
             if (id < 0) {
                 return null;
             }
-            if (!string.IsNullOrWhiteSpace(options.Title)) {
-                project_ = project_.Where(c =>
-                    c.Tittle==options.Title);
-            }
-          
-            return project_;
+
+           return backer_;
         }
 
         public bool UpdateBacker(int id, UpdateBacker options)
-        {
-            throw new NotImplementedException();
+        { 
+            var backer = SearchBackerId(id);
+            if ((id <= 0)|| (options == null)) {
+                return false;
+            }
+           
+
+            //thelei douleia
+            return false;
         }
     }
 }

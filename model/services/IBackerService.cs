@@ -8,13 +8,13 @@ namespace CrowdFun.Core.model.services
 {
    public interface IBackerService
     {
-        bool AddBackerNew(AddNewBackerOptions options);
+        Backers AddBackerNew(AddNewBackerOptions options);
 
         bool UpdateBacker(int id, UpdateBacker options);
 
-        IQueryable<Backers> SearchBacker(SearchBaker options);
+        Backers SearchBacker(SearchBaker options);
 
-        IQueryable<Project> SearchProject(SearchProgramme options,int id);
+        IQueryable<Project> SearchBackerId(int id);
 
     }
 }
