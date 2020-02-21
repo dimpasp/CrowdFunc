@@ -9,15 +9,13 @@ namespace CrowdFun.Core.model.services
 {
    public interface IBackerService
     {
-        Task<ApiResult<Backers>> AddBackerNewAsync(AddNewBackerOptions options);
-     
+        Task<ApiResult< Backers>> AddBackerNewAsync( model.options.AddNewBackerOptions options);                                                                //Model.Options.CreateCustomerOptions options);
+
         public bool UpdateBacker(int id, UpdateBacker options);
 
         Backers SearchBackerId(int id);
 
         public IQueryable<Backers> SearchBacker(SearchBaker options);
-
-
     }
 }
 
