@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using CrowdFun.Core.model.options;
 
 namespace CrowdFun.Core.model.services
 {
    public interface IBackerService
     {
-        Backers AddBackerNew(AddNewBackerOptions options);
-
+        Task<ApiResult<Backers>> AddBackerNewAsync(AddNewBackerOptions options);
+     
         public bool UpdateBacker(int id, UpdateBacker options);
 
         Backers SearchBackerId(int id);

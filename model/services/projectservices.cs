@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using CrowdFun.Core.model.options;
 
 namespace CrowdFun.Core.model.services
@@ -13,33 +14,35 @@ namespace CrowdFun.Core.model.services
             throw new NotImplementedException();
         }
 
-        public bool ChangeProjectStatus(int Id, StatusCode Status)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Project CreateProject(int Id, AddProjects options)
+        public async Task<ApiResult<Project>> CreateProjectAsync(int Id, AddProjects options)
         {
             if (options == null || options.Project_Category<=0) {
-                return null;
+                return new ApiResult<Project>(
+                   StatusCode.BadRequest, "Null options");
             }
 
             if (string.IsNullOrWhiteSpace(options.ProjectTitle) ||
               string.IsNullOrWhiteSpace(options.Description)) {
-                return null;
+                return new ApiResult<Project>(
+                   StatusCode.BadRequest, "Null options");
             }
             var new_project = new Project()
             {
             };
             context_.Add(new_project);
             try {
-                context_.SaveChanges();
+                await context_.SaveChangesAsync();
             } catch (Exception ex) {
-
-                throw new Exception("lathos");
+                return new ApiResult<Project>(
+                    StatusCode.InternalServerError, "Could not save creator");
             }
 
-            return new_project;
+            return new ApiResult<Project>()
+            {
+                ErrorCode = StatusCode.Ok,
+                Data = new_project
+            };
         }
 
         public int GetProjectById(string title)
@@ -73,27 +76,21 @@ namespace CrowdFun.Core.model.services
                 return null;   
             }else if (string.IsNullOrWhiteSpace(options.Title)) {
                 return null;
-            }//else if (!string.IsNullOrWhiteSpace(options.Title)) {
-            //    project_ = project_.Where();
-            //}
-                return project_;      
-        }
-       
+            }else if (!string.IsNullOrWhiteSpace(options.Title)) {
+                project_ = project_.Where(t=>t.Tittle==options.Title);
+            } 
+            return project_;
+        }    
         public IQueryable<Project> SearchProjectByCategory(ProjectsCategory options)
         {
             var project_ = context_
               .Set<Project>()
               .AsQueryable();
 
-            bool exist = false;
-
-            //if (options != 0) {
-            //    project_ = project_.Where();
-            //}
-
+            if (options != 0) {
+                //project_ = project_.Where(p=>p.ProjectsCategory==cate);
+            }
             return project_;
-        }
-
-     
+        }   
     }
 }

@@ -12,9 +12,8 @@ namespace CrowdFun.Core.model.services {
         Project GettingProject(int projectId, int backerId, int rewardId);
 
         public int GetProjectById(string title);
-
-        bool ChangeProjectStatus(int Id,StatusCode Status);
-        Project CreateProject(int Id,AddProjects  options);
+        Task<ApiResult<Project>> CreateProjectAsync(int Id,AddProjects  options);
+        
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Text;
 using CrowdFun.Core.model.options;
 
@@ -10,22 +11,29 @@ namespace CrowdFun.Core.model.services
     {
         private readonly data.CrowdFunDbContext context_;
     
-        public bool AddReward(int ownerId, Reward reward)
+        public bool AddReward(int Id, Reward reward)
         {
-            throw new NotImplementedException();
+            if (reward == null) {
+                return false;
+            }           
+            var creator = SearchCreatorId(Id);
+           // creator.Reward.Add(reward);
+            return true;
         }
 
-        public Creator CreateNewCreator(AddNewCreatorOptions options)
+        public async Task<ApiResult<Creator>> CreateNewCreatorAsync(AddNewCreatorOptions options)
         {
             //kai enan elegxo na kanw gia an uparxei
             if (options == null) {
-                return null;
+                return new ApiResult<Creator>(
+                    StatusCode.BadRequest, "Null options");
             }
             if (string.IsNullOrWhiteSpace(options.Password) ||
               string.IsNullOrWhiteSpace(options.Email)||
               string.IsNullOrWhiteSpace(options.FirstName)||
               string.IsNullOrWhiteSpace(options.LastName)) {
-                return null;
+                return new ApiResult<Creator>(
+                    StatusCode.BadRequest, "Null options");
             }
             var new_Creator = new Creator()
             {
@@ -36,15 +44,21 @@ namespace CrowdFun.Core.model.services
             };
             context_.Add(new_Creator);
             try {
-                context_.SaveChanges();
+               await context_.SaveChangesAsync();
             } catch (Exception ex) {
-
-                throw new Exception("you have wrong");
+                return new ApiResult<Creator>(
+                    StatusCode.InternalServerError, "Could not save creator");
             }
 
-            return new_Creator;
+            return new ApiResult<Creator>()
+            {
+                ErrorCode = StatusCode.Ok,
+                Data = new_Creator
+            };
         }
-             
+
+     
+
         public IQueryable<Creator> SearchCreator(SearchProjects options)
         {
             var Creator_ = context_
@@ -58,19 +72,34 @@ namespace CrowdFun.Core.model.services
             }
             return Creator_;
         }
-        public IQueryable<Creator> SearchOwnerById(int id)
+
+        public Creator SearchCreatorId(int Id)
         {
             throw new NotImplementedException();
         }
 
-        public bool UpdateBacker(int id, UpdateBacker options)
+        public bool UpdateCreator(int id, UpdateBacker options)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateCreator_(int id, UpdateCreator options)
-        {
-            throw new NotImplementedException();
+            var creator = SearchCreatorId(id);
+            var built = false;
+            if ((id<0)||
+                (options == null)) {
+                return false;
+            }
+            if (!string.IsNullOrWhiteSpace(options.FirstName)) {
+                creator.FirstName = options.FirstName;
+            }
+            if (!string.IsNullOrWhiteSpace(options.LastName)) {
+                creator.LastName = options.LastName;
+            }
+            if (!string.IsNullOrWhiteSpace(options.Password)) {
+                creator.Password = options.Password;
+            }
+            try {
+                built = context_.SaveChanges() > 0;
+            } catch (Exception ex) {
+            }
+            return built;
         }
     }
 }
