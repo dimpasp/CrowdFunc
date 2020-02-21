@@ -12,6 +12,7 @@ namespace CrowdFun.Core.model.options {
         public string Video { get; set; }
         public int Id { get; set; }
         public ProjectsCategory Project_Category { get; set; }
+        public decimal ProjectGoal { get; set; }
 
     }
 }

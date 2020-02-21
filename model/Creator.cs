@@ -11,11 +11,14 @@ namespace CrowdFun.Core.model
         public string Email { get; set; }
         public int Id { get; set; }
         public string Password { get; set; }
+        public string Phone { get; set; }
         public ICollection<Project> Project_ { get; set; }
         public ICollection<Reward> Rewards_ { get; set; }
+        public DateTimeOffset UserDateCreated { get; set; }
+
         public Creator()
         {
-            Rewards_ = new List<Reward>();
+            UserDateCreated = DateTimeOffset.Now;
         }
 
     }
