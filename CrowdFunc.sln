@@ -5,10 +5,7 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdFun.Core", "CrowdFun.Core.csproj", "{267F97BD-334C-44E0-84CF-4ACFA4F966BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowFun.web", "..\CrowFun\CrowFun.web.csproj", "{7A8C37C9-D4F8-4C07-B9F5-59562448CFE6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{267F97BD-334C-44E0-84CF-4ACFA4F966BF} = {267F97BD-334C-44E0-84CF-4ACFA4F966BF}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdFundWeb", "CrowdFundWeb\CrowdFundWeb.csproj", "{390A1A5B-237C-4650-8547-750DB24BA9F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +17,10 @@ Global
 		{267F97BD-334C-44E0-84CF-4ACFA4F966BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{267F97BD-334C-44E0-84CF-4ACFA4F966BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{267F97BD-334C-44E0-84CF-4ACFA4F966BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A8C37C9-D4F8-4C07-B9F5-59562448CFE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A8C37C9-D4F8-4C07-B9F5-59562448CFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A8C37C9-D4F8-4C07-B9F5-59562448CFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A8C37C9-D4F8-4C07-B9F5-59562448CFE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{390A1A5B-237C-4650-8547-750DB24BA9F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{390A1A5B-237C-4650-8547-750DB24BA9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{390A1A5B-237C-4650-8547-750DB24BA9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{390A1A5B-237C-4650-8547-750DB24BA9F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
