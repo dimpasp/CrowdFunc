@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CrowdFun.Core.model.options;
+using Microsoft.EntityFrameworkCore;
 
 namespace CrowdFun.Core.model.services
 {
@@ -9,6 +10,10 @@ namespace CrowdFun.Core.model.services
     {
 
         private readonly data.CrowdFunDbContext context_;
+        public ProjectServices(data.CrowdFunDbContext ctx)
+        {
+            context_ = ctx ?? throw new ArgumentNullException(nameof(ctx));
+        }
         public async Task<ApiResult<Project>> CreateProjectAsync( AddProjects options)
         {
             if (options == null || options.Project_Category<=0) {
@@ -21,25 +26,26 @@ namespace CrowdFun.Core.model.services
                 return new ApiResult<Project>(
                    StatusCode.BadRequest, "Null options");
             }
-            //var user = users.SearchUser(new Model.Options.User.SearchUserOptions()
-            //{
-            //    UserId = userId
-            //}).SingleOrDefault();
+            if (options.Budget < 0) {
+                return new ApiResult<Project>(
+                    StatusCode.BadRequest, "Invalid project budget");
+            }
+            if (options.Creator == null) {
+                return new ApiResult<Project>(
+                    StatusCode.BadRequest, "Null creator");
+            }
 
-            //if (user == null) {
-            //    return false;
-            //}
 
             var new_project = new Project()
-            //{
-            //    ProjectUser = user,
-            //    ProjectDescription = options.ProjectDescription,
-            //    ProjectTitle = options.ProjectTitle,
-            //    ProjectFinancialGoal = options.ProjectFinancialGoal,
-            //    ProjectCategory = options.ProjectCategory,
-            //    ProjectDateExpiring = options.ProjectDateExpiring,
-            //    ProjectCapitalAcquired = options.ProjectCapitalAcquired
-           ; //};
+            {              
+                budget = options.Budget,
+                Description = options.Description,
+                Tittle = options.ProjectTitle,
+                ProjectCreator = options.Creator,
+                Photos = options.Photos,
+                Videos = options.Video,
+                Rewards = options.Rewards
+            };          
             context_.Add(new_project);
             try {
                 await context_.SaveChangesAsync();
@@ -73,43 +79,62 @@ namespace CrowdFun.Core.model.services
                 project_ = project_.Where(p =>
                     p.id == options.Id);
             }
-
-            //if (options.BrowseByCategory != 0) {
-            //    query = query.Where(p =>
-            //       p. == options.BrowseByCategory);
-            //}
-
             return project_;
         }
 
-        public bool UpdateProject(int id, UpdateProjectsOptions options)
+        public async Task<bool> UpdateProject(int id, UpdateProjectsOptions options)
         {
-            var project = GetProjectById(id);
-            if ((options == null)||
-                (project == null)){
+            var updproject = await context_.Set<Project>()
+                .SingleOrDefaultAsync(p => p.id == id);
+
+            if (updproject == null) {
                 return false;
             }
 
-            if (!string.IsNullOrWhiteSpace
-                (options.ProjectTitle)) {
-                project.Tittle = options.ProjectTitle;
-            }
-            if (!string.IsNullOrWhiteSpace
-                (options.Description)) {
-                project.Description = options.Description;
+            if (updproject.Description != null) {
+                updproject.Description = options.Description;
             }
 
+            if (updproject.budget > 0) {
+                updproject.budget = options.Budget;
+            }
+
+            if (updproject.Tittle != null) {
+                updproject.Tittle = options.ProjectTitle;
+            }
+
+            if (updproject.Photos != null) {
+                updproject.Photos = options.Photo;
+            }
+
+            if (updproject.Videos != null) {
+                updproject.Videos= options.Video;
+            }
+
+            context_.Update(updproject);
+            try {
+                await context_.SaveChangesAsync();
+            } catch (Exception ex) {
+                return false;
+            }
             return true;
         }
 
-        public Project GetProjectById(int id)
+        public async Task<ApiResult<Project>> getProjectById(int id)
         {
-            if (id == 0) {
-                return null;
+            if (id <= 0) {
+                return new ApiResult<Project>(
+                        StatusCode.BadRequest, "Null id");
             }
-            return context_
-                .Set<Project>()
-                .SingleOrDefault(p => p.id == id);
+            var project = await context_.Set<Project>().SingleOrDefaultAsync(s => s.id == id);
+            if (project == null) {
+                return new ApiResult<Project>(
+                        StatusCode.NotFound, "Backer not found"); ;
+            }
+            var api = new ApiResult<Project>();
+            api.Data = project;
+            api.ErrorCode = StatusCode.Ok;
+            return api;
         }
     }
 }

@@ -15,10 +15,11 @@ namespace CrowdFun.Core.model
         public ICollection<Project> Project_ { get; set; }
         public ICollection<Reward> Rewards_ { get; set; }
         public DateTimeOffset UserDateCreated { get; set; }
-
+        public decimal TotalCost { get; set; }
         public Creator()
         {
             UserDateCreated = DateTimeOffset.Now;
+            Project_ = new List<Project>();
         }
 
     }

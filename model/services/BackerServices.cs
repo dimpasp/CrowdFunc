@@ -10,18 +10,25 @@ namespace CrowdFun.Core.model.services
 
     {
         private readonly data.CrowdFunDbContext context_;
-        public async Task<ApiResult< Backers>> AddBackerNewAsync(AddNewBackerOptions options)
+        public BackerServices(data.CrowdFunDbContext ctx)
+        {
+            context_ = ctx ?? throw new ArgumentNullException(nameof(ctx));
+        }
+        public async Task<ApiResult<Backers>> AddBackerNewAsync(AddNewBackerOptions options)
         {
             if (options == null) {
                 return new ApiResult<Backers>(
                     StatusCode.BadRequest, "Null options");
             }
+            if (options.Donate <= 0.0M) {
+                return new ApiResult<Backers>(
+                    StatusCode.BadRequest, "Invalid Donate");
+            }
 
             if (string.IsNullOrWhiteSpace(options.FirstName) ||
                 string.IsNullOrWhiteSpace(options.LastName) ||
                 string.IsNullOrWhiteSpace(options.Email) ||
-                string.IsNullOrWhiteSpace(options.Id)||
-                string.IsNullOrWhiteSpace(options.Password)){
+                string.IsNullOrWhiteSpace(options.Password)) {
                 return new ApiResult<Backers>(
                     StatusCode.BadRequest, "Null options");
             }
@@ -29,8 +36,8 @@ namespace CrowdFun.Core.model.services
             {
                 FirstName = options.FirstName,
                 LastName = options.LastName,
-                Password = options.Password,
-                Email = options.Email         
+                Email = options.Email,
+                Donate = options.Donate              
             };
             context_.Add(new_backer);
             try {
@@ -39,12 +46,13 @@ namespace CrowdFun.Core.model.services
                 return new ApiResult<Backers>(
                     StatusCode.InternalServerError, "Could not save creator");
             }
+            return new ApiResult<Backers>()
+            {
+                ErrorCode = StatusCode.Ok,
+                Data = new_backer
+            };
 
-        public Task<ApiResult<Backers>> AddBackerNewAsync(AddNewBackerOptions options)
-        {
-            throw new NotImplementedException();
         }
-
         public IQueryable<Backers> SearchBacker(SearchBaker options)
         {
             var backer_ = context_
@@ -90,7 +98,7 @@ namespace CrowdFun.Core.model.services
         public bool UpdateBacker(int id, UpdateBacker options)
         { 
             var backer = SearchBackerId(id);
-            var built = false;
+            var built = true;
             if ((id <= 0)|| (options == null)) {
                 return false;
             }
@@ -103,12 +111,17 @@ namespace CrowdFun.Core.model.services
             if (!string.IsNullOrWhiteSpace(options.Password)) {
                 backer.Password = options.Password;
             }
+            if (options.NewDonate <= 0) {
+                backer.Donate = options.NewDonate;
+            }
             try {
                 built = context_.SaveChanges() > 0;
             } catch (Exception ex) {
+                Console.WriteLine("UPDATE FAIL" + ex);
+                return false;
             }
             return built;
         }
-    }
-}
+    }   
+ }
         

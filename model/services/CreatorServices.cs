@@ -10,6 +10,10 @@ namespace CrowdFun.Core.model.services
     public class CreatorServices : ICreatorService
     {
         private readonly data.CrowdFunDbContext context_;
+        public CreatorServices(data.CrowdFunDbContext ctx)
+        {
+            context_ = ctx ?? throw new ArgumentNullException(nameof(ctx));
+        }
         public async Task<ApiResult<Creator>> CreateNewCreatorAsync(AddNewCreatorOptions options)
         {
             //kai enan elegxo na kanw gia an uparxei
@@ -29,7 +33,9 @@ namespace CrowdFun.Core.model.services
                 FirstName = options.FirstName,
                 LastName = options.LastName,
                 Email = options.Email,
-                Password=options.Password          
+                Password=options.Password ,
+                Phone=options.Phone,
+                TotalCost=options.TotalCost
             };
             context_.Add(new_Creator);
             try {
@@ -89,13 +95,13 @@ namespace CrowdFun.Core.model.services
                 .Set<Creator>()
                 .SingleOrDefault(s => s.Id == Id);
         }
-        public bool UpdateCreator(int id, UpdateBacker options)
+        public async Task<bool> UpdateProjectCreator(int id, UpdateCreator options)
         {
             var creator = SearchCreatorById(id);
-            var built = false;
             if ((id <= 0) ||
                 (options == null) ||
-                (creator == null)) {
+                (creator == null)||
+                (options.TotalCost <= 0.0M)) {
                 return false;
             }
             if (!string.IsNullOrWhiteSpace(options.FirstName)) {
@@ -110,11 +116,37 @@ namespace CrowdFun.Core.model.services
             if (creator == null) {
                 //elegxo gia ton creator
             }
-            try {
-                built = context_.SaveChanges() > 0;
-            } catch (Exception ex) {
+
+            var UpdProjectCreator = context_.Set<Creator>().SingleOrDefault(p => p.Id == id);
+
+            if (UpdProjectCreator == null) {
+                return false;
             }
-            return built;
+
+            if (!string.IsNullOrEmpty(UpdProjectCreator.FirstName)) {
+                UpdProjectCreator.FirstName = options.FirstName;
+            }
+
+            if (!string.IsNullOrEmpty(UpdProjectCreator.LastName)) {
+                UpdProjectCreator.LastName = options.LastName;
+            }
+
+            if (!string.IsNullOrEmpty(UpdProjectCreator.Email)) {
+                UpdProjectCreator.Email = options.Email;
+            }
+
+            if (UpdProjectCreator.TotalCost > 0) {
+                UpdProjectCreator.TotalCost = options.TotalCost;
+            }
+            context_.Update(UpdProjectCreator);
+            try {
+                context_.SaveChanges();
+                Console.WriteLine("Update creator ok");
+            } catch (Exception ex) {
+                Console.WriteLine("UPDATE CREATOR FAIL" + ex);
+                return false;
+            }
+            return true;
         }
     }
 }

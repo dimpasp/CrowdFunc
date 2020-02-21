@@ -8,8 +8,11 @@ namespace CrowdFun.Core.model.options {
 
         public string Description { get; set; }
         public bool UpdateStatus { get; set; }
+        public decimal Budget { get; set; }
         public decimal ProjectGoal { get; set; }
-        //public StatusCode Status { get; set; }
+        public DateTime Deadline { get; set; }
+        public string Photo { get; set; }
+        public string Video { get; set; }
         public ProjectsCategory ProjectCategory { get; set; }
     }
 }

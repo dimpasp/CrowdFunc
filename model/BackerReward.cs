@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CrowdFun.Core.model
 {
-    public class BackerReward
+   public  class BackerReward
     {
         public int BackerId { get; set; }
         public Backers Backers { get; set; }

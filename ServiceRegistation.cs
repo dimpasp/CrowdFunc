@@ -7,7 +7,11 @@ using CrowdFun.Core.model.services;
 namespace CrowdFun.Core
 {
     public class ServiceRegistation
-    {        
+    {
+        //protected override void Load(ContainerBuilder builder)
+        //{
+        //    RegisterServices(builder);
+        //}
         public static IContainer GetContainer()
         {
             var builder = new ContainerBuilder();
@@ -29,7 +33,10 @@ namespace CrowdFun.Core
                 .RegisterType<CreatorServices>()
                 .InstancePerLifetimeScope()
                 .As<ICreatorService>();
-
+            builder.
+               RegisterType<data.CrowdFunDbContext>()
+               .InstancePerLifetimeScope()
+               .AsSelf();
             return builder.Build();
         }
     }

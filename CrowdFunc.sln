@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdFun.Core", "CrowdFun.Core.csproj", "{267F97BD-334C-44E0-84CF-4ACFA4F966BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdFundWeb", "CrowdFundWeb\CrowdFundWeb.csproj", "{8142A9F1-97D5-4A56-939C-E4D35713E6D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrowdFundWeb", "CrowdFundWeb\CrowdFundWeb.csproj", "{8142A9F1-97D5-4A56-939C-E4D35713E6D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
