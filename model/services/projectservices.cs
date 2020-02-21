@@ -9,7 +9,7 @@ namespace CrowdFun.Core.model.services
     {
 
         private readonly data.CrowdFunDbContext context_;
-        public async Task<ApiResult<Project>> CreateProjectAsync(int Id, AddProjects options)
+        public async Task<ApiResult<Project>> CreateProjectAsync( AddProjects options)
         {
             if (options == null || options.Project_Category<=0) {
                 return new ApiResult<Project>(

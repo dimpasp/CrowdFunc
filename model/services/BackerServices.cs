@@ -10,7 +10,7 @@ namespace CrowdFun.Core.model.services
 
     {
         private readonly data.CrowdFunDbContext context_;
-        public Backers AddBackerNew(AddNewBackerOptions options)
+        public async Task<ApiResult< Backers>> AddBackerNewAsync(AddNewBackerOptions options)
         {
             if (options == null) {
                 return new ApiResult<Backers>(

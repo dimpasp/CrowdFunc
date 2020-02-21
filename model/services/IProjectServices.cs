@@ -8,12 +8,12 @@ namespace CrowdFun.Core.model.services {
      public interface IProjectServices
      {
         IQueryable<Project> SearchProject(SearchProjects options);
-      bool UpdateProject(int id,UpdateProjectsOptions options);
-        
+      bool UpdateProject(int id,UpdateProjectsOptions options); 
 
         public Project GetProjectById(int id);
-        Task<ApiResult<Project>> CreateProjectAsync(int Id,AddProjects  options);
+        Task<ApiResult<Project>> CreateProjectAsync(AddProjects  options); 
         
+
     }
 }
 

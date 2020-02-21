@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CrowdFun.Core.data;
 using CrowdFun.Core.model;
+using CrowFun.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ namespace CrowFun.web.Controllers {
     {
         private CrowdFunDbContext context_;
         private CrowdFun.Core.model.services.ICreatorService creator_;
-        public CreatorController(
+        public CreatorControler(
            CrowdFunDbContext context,
            CrowdFun.Core.model.services.CreatorServices creator)
         {
@@ -32,7 +33,7 @@ namespace CrowFun.web.Controllers {
 
         public IActionResult List()
         {
-            var backerList = context_
+            var CreatorList = context_
                 .Set<Creator>()
                 .Select(c => new { c.LastName, c.Project_, c.Rewards_ })
                 .Take(100)
@@ -51,8 +52,8 @@ namespace CrowFun.web.Controllers {
         public async Task<IActionResult> Create(
                          CrowdFundWeb.Models.CreateCreatorViewModel model)
         {
-            var result = await creator_.(
-                model?.);
+            var result = await creator_.CreateNewCreatorAsync(
+                model?.Create);
 
             if (result == null) {
                 model.ErrorText = " Something went wrong";
@@ -64,10 +65,10 @@ namespace CrowFun.web.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBacker(
-           [FromBody]   CrowdFun.Core.model.options.AddNewBackerOptions options)
+        public async Task<IActionResult> CreateCreator(
+           [FromBody]   CrowdFun.Core.model.options.AddNewCreatorOptions options)
         {
-            var result = await backer_.AddBackerNewAsync(
+            var result = await creator_.CreateNewCreatorAsync(
                 options);
 
             return result.AsStatusResult();
