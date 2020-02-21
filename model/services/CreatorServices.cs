@@ -45,18 +45,38 @@ namespace CrowdFun.Core.model.services
                 Data = new_Creator
             };
         }
-        public IQueryable<Creator> SearchCreator(SearchProjects options)
+
+        public IQueryable<Creator> SearchCreator(SearchCreatorOptions options)
         {
-            var Creator_ = context_
-           .Set<Creator>()
-           .AsQueryable();
+            var query = context_
+                .Set<Creator>()
+                .AsQueryable();
 
             if (options == null) {
                 return null;
-            } else if (string.IsNullOrWhiteSpace(options.Title)) {
-                return null;
             }
-            return Creator_;
+
+            if (options.Id != null) {
+                return query.Where(s => s.Id == options.Id);
+            }
+
+         
+            if (!string.IsNullOrWhiteSpace(options.Email)) {
+                query = query.Where(s => s.Email == options.Email);
+            }
+
+            if (options.FirstName != null) {
+                query = query
+                    .Where(s => s.FirstName == options.FirstName);
+            }
+
+            if (options.LastName != null) {
+                query = query
+                    .Where(s => s.LastName == options.LastName);
+            }
+
+            return query
+                .Take(500);
         }
 
         public Creator SearchCreatorById(int Id)
@@ -69,14 +89,13 @@ namespace CrowdFun.Core.model.services
                 .Set<Creator>()
                 .SingleOrDefault(s => s.Id == Id);
         }
-
-        public bool UpdateCreator(int id, UpdateCreator options)
+        public bool UpdateCreator(int id, UpdateBacker options)
         {
             var creator = SearchCreatorById(id);
             var built = false;
-            if ((id<=0)||
-                (options == null)||
-                (creator==null)) {
+            if ((id <= 0) ||
+                (options == null) ||
+                (creator == null)) {
                 return false;
             }
             if (!string.IsNullOrWhiteSpace(options.FirstName)) {
@@ -89,7 +108,7 @@ namespace CrowdFun.Core.model.services
                 creator.Password = options.Password;
             }
             if (creator == null) {
-
+                //elegxo gia ton creator
             }
             try {
                 built = context_.SaveChanges() > 0;
@@ -99,69 +118,5 @@ namespace CrowdFun.Core.model.services
         }
     }
 }
- //if(user == null) {
- //               return new ApiResult<User>()
- //               {
- //                   ErrorCode = StatusCode.NotFound,
- //                   ErrorText = $"User Id not found in database"
- //               };
- //           }
 
- //           if (!string.IsNullOrWhiteSpace(options.UserEmail)) {
- //               var emailCheck = SearchUser(new SearchUserOptions()
- //               {
- //                   UserEmail = options.UserEmail
- //               }).SingleOrDefault();
-
- //               if(emailCheck == null) {
- //                   user.UserEmail = options.UserEmail;
- //               } else {
- //                   return new ApiResult<User>()
- //                   {
- //                       ErrorCode = StatusCode.Conflict,
- //                       ErrorText = $"Email already found in database"
- //                   };
- //               }
- //           }
-
- //           if (!string.IsNullOrWhiteSpace(options.UserFirstName)) {
- //               user.UserFirstName = options.UserFirstName;
- //           }            
-            
- //           if (!string.IsNullOrWhiteSpace(options.UserLastName)) {
- //               user.UserLastName = options.UserLastName;
- //           }            
-            
- //           if (!string.IsNullOrWhiteSpace(options.UserPhone)) {
- //               user.UserPhone = options.UserPhone;
- //           }            
-            
- //           if (!string.IsNullOrWhiteSpace(options.UserVat)) {
- //               user.UserVat = options.UserVat;
- //           }
-
- //           context.Update(user);
-
- //           var success = false;
-
- //           try {
- //               success = await context.SaveChangesAsync() > 0;
- //           } catch (Exception e) {
- //               return new ApiResult<User>()
- //               {
- //                   ErrorCode = StatusCode.InternalServerError,
- //                   ErrorText = $"Something went wrong, user not updated. {e}"
- //               };
- //           }
-
- //           if (success) {
- //               return ApiResult<User>.CreateSuccess(user);
- //           } else {
- //               return new ApiResult<User>()
- //               {
- //                   ErrorCode = StatusCode.InternalServerError,
- //                   ErrorText = "Something went wrong, user not updated"
- //               };
- //           }
- //       }
 

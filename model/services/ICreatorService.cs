@@ -7,9 +7,9 @@ namespace CrowdFun.Core.model.services
     {
         Task<ApiResult<Creator>> CreateNewCreatorAsync(AddNewCreatorOptions options);
 
-        public IQueryable<Creator> SearchCreator(SearchProjects options);
         public bool UpdateCreator(int id, UpdateBacker options);
         Creator SearchCreatorById(int Id);
+        IQueryable<Creator> SearchCreator(SearchCreatorOptions options);
 
     }
 }
