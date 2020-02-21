@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using CrowdFun.Core.model.options;
 
 namespace CrowdFun.Core.model.services
@@ -8,92 +9,107 @@ namespace CrowdFun.Core.model.services
     {
 
         private readonly data.CrowdFunDbContext context_;
-        public Project GettingProject(int projectId, int backerId, int rewardId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ChangeProjectStatus(int Id, StatusCode Status)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Project CreateProject(int Id, AddProjects options)
+        public async Task<ApiResult<Project>> CreateProjectAsync(int Id, AddProjects options)
         {
             if (options == null || options.Project_Category<=0) {
-                return null;
+                return new ApiResult<Project>(
+                   StatusCode.BadRequest, "Null options");
             }
 
             if (string.IsNullOrWhiteSpace(options.ProjectTitle) ||
               string.IsNullOrWhiteSpace(options.Description)) {
-                return null;
+                return new ApiResult<Project>(
+                   StatusCode.BadRequest, "Null options");
             }
+            //var user = users.SearchUser(new Model.Options.User.SearchUserOptions()
+            //{
+            //    UserId = userId
+            //}).SingleOrDefault();
+
+            //if (user == null) {
+            //    return false;
+            //}
+
             var new_project = new Project()
-            {
-            };
+            //{
+            //    ProjectUser = user,
+            //    ProjectDescription = options.ProjectDescription,
+            //    ProjectTitle = options.ProjectTitle,
+            //    ProjectFinancialGoal = options.ProjectFinancialGoal,
+            //    ProjectCategory = options.ProjectCategory,
+            //    ProjectDateExpiring = options.ProjectDateExpiring,
+            //    ProjectCapitalAcquired = options.ProjectCapitalAcquired
+           ; //};
             context_.Add(new_project);
             try {
-                context_.SaveChanges();
+                await context_.SaveChangesAsync();
             } catch (Exception ex) {
-
-                throw new Exception("lathos");
+                return new ApiResult<Project>(
+                    StatusCode.InternalServerError, "Could not save creator");
             }
 
-            return new_project;
+            return new ApiResult<Project>()
+            {
+                ErrorCode = StatusCode.Ok,
+                Data = new_project
+            };
         }
-
-        public int GetProjectById(string title)
+        public IQueryable<Project> SearchProject(SearchProjects options)
         {
-            if (string.IsNullOrWhiteSpace(title)) {
-                return 0;
-            }
             var project_ = context_
                 .Set<Project>()
                 .AsQueryable();
 
-            project_ = project_.Where(c =>
-                     c.Tittle == title);
-
-            var returnProject = project_.SingleOrDefault();
-            if (returnProject == null) {
-                return 0;
-            } else {
-                return returnProject.id;
+            if (options == null) {
+                return null;
             }
 
-        }
+            if (!string.IsNullOrWhiteSpace(options.Title)) {
+                project_ = project_.Where(p =>
+                    p.Tittle== options.Title);
+            }
 
-        public IQueryable<Project> SearchProject(SearchProjects options,int id)
-        {
-            var project_ = context_
-             .Set<Project>()
-             .AsQueryable();
+            if (options.Id <= 0) {
+                project_ = project_.Where(p =>
+                    p.id == options.Id);
+            }
 
-            if (options ==null || id<0) {
-                return null;   
-            }else if (string.IsNullOrWhiteSpace(options.Title)) {
-                return null;
-            }//else if (!string.IsNullOrWhiteSpace(options.Title)) {
-            //    project_ = project_.Where();
-            //}
-                return project_;      
-        }
-       
-        public IQueryable<Project> SearchProjectByCategory(ProjectsCategory options)
-        {
-            var project_ = context_
-              .Set<Project>()
-              .AsQueryable();
-
-            bool exist = false;
-
-            //if (options != 0) {
-            //    project_ = project_.Where();
+            //if (options.BrowseByCategory != 0) {
+            //    query = query.Where(p =>
+            //       p. == options.BrowseByCategory);
             //}
 
             return project_;
         }
 
-     
+        public bool UpdateProject(int id, UpdateProjectsOptions options)
+        {
+            var project = GetProjectById(id);
+            if ((options == null)||
+                (project == null)){
+                return false;
+            }
+
+            if (!string.IsNullOrWhiteSpace
+                (options.ProjectTitle)) {
+                project.Tittle = options.ProjectTitle;
+            }
+            if (!string.IsNullOrWhiteSpace
+                (options.Description)) {
+                project.Description = options.Description;
+            }
+
+            return true;
+        }
+
+        public Project GetProjectById(int id)
+        {
+            if (id == 0) {
+                return null;
+            }
+            return context_
+                .Set<Project>()
+                .SingleOrDefault(p => p.id == id);
+        }
     }
 }

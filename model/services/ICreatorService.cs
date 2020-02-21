@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using CrowdFun.Core.model.options;
 namespace CrowdFun.Core.model.services
 {
@@ -7,9 +8,8 @@ namespace CrowdFun.Core.model.services
         Creator CreateNewCreator(AddNewCreatorOptions options);      
 
         public IQueryable<Creator> SearchCreator(SearchProjects options);
-
-        bool AddReward(int Id, Reward reward);
-        public bool UpdateBacker(int id, UpdateBacker options);
+        public bool UpdateCreator(int id, UpdateBacker options);
+        Creator SearchCreatorById(int Id);
 
     }
 }

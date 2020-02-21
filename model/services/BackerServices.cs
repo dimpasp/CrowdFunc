@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,11 +10,11 @@ namespace CrowdFun.Core.model.services
 
     {
         private readonly data.CrowdFunDbContext context_;
-        public async Task<ApiResult< Backers>> AddBackerNewAsync(AddNewBackerOptions options)  
-         
+        public Backers AddBackerNew(AddNewBackerOptions options)
         {
             if (options == null) {
-                return null;
+                return new ApiResult<Backers>(
+                    StatusCode.BadRequest, "Null options");
             }
 
             if (string.IsNullOrWhiteSpace(options.FirstName) ||
@@ -23,17 +22,29 @@ namespace CrowdFun.Core.model.services
                 string.IsNullOrWhiteSpace(options.Email) ||
                 string.IsNullOrWhiteSpace(options.Id)||
                 string.IsNullOrWhiteSpace(options.Password)){
-                return null;
+                return new ApiResult<Backers>(
+                    StatusCode.BadRequest, "Null options");
             }
-            var backer = new Backers()
+            var new_backer = new Backers()
             {
                 FirstName = options.FirstName,
                 LastName = options.LastName,
                 Password = options.Password,
                 Email = options.Email         
             };
-            context_.Add(backer);
-            return backer;
+            context_.Add(new_backer);
+            try {
+                await context_.SaveChangesAsync();
+            } catch (Exception ex) {
+                return new ApiResult<Backers>(
+                    StatusCode.InternalServerError, "Could not save creator");
+            }
+
+            return new ApiResult<Backers>()
+            {
+                ErrorCode = StatusCode.Ok,
+                Data = new_backer
+            };
         }
 
         public IQueryable<Backers> SearchBacker(SearchBaker options)
