@@ -4,14 +4,16 @@ using CrowdFun.Core.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CrowdFun.Core.Migrations
 {
     [DbContext(typeof(CrowdFunDbContext))]
-    partial class CrowdFunDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200222172224_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,17 +103,14 @@ namespace CrowdFun.Core.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAvaliable")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Percentage")
-                        .HasColumnType("int");
-
                     b.Property<string>("Photos")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Tittle")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("UpdateStatus")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Videos")
                         .HasColumnType("nvarchar(max)");

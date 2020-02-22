@@ -10,6 +10,13 @@ namespace CrowdFun.Core.data
     {
         private readonly string connectionString_;
 
+        public DbSet<Backer> Backers { get; set; }
+        public DbSet<Creator> Creators { get; set; }
+        public DbSet<Project> Projects { get; set; }
+
+        public DbSet<Reward> Rewards { get; set; }
+
+
         public CrowdFunDbContext() : base()
         {
             connectionString_ = "Server=localhost;Database=CrowdFun;User Id=sa;Password=QWE123!@#";
@@ -23,46 +30,26 @@ namespace CrowdFun.Core.data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.
-                Entity<Backers>().
-                ToTable("Backer");
+            // Configure Many to Many Relationship
+            modelBuilder.Entity<Reward>().HasKey(r => new { r.BackerId, r.ProjectId });
 
-            modelBuilder.
-                Entity<Backers>().
-                HasIndex(v => v.FirstName)
-                .IsUnique();
+            modelBuilder.Entity<Reward>().
+                HasOne(r => r.Project).
+                WithMany(p => p.Rewards).
+                HasForeignKey(r => r.ProjectId);
 
-            modelBuilder.
-               Entity<Backers>().
-               HasIndex(v => v.LastName)
-               .IsUnique();
+            modelBuilder.Entity<Reward>().
+               HasOne(r => r.Backer).
+               WithMany(b => b.Rewards).
+               HasForeignKey(r => r.BackerId);
 
-            modelBuilder.
-                Entity<Backers>().
-                HasIndex(v => v.Email)
-                .IsUnique();
-
+            // Configure One to Many Relationship
             modelBuilder.
                 Entity<Creator>().
-                ToTable("Creator");
+                HasMany(c => c.Projects).
+                WithOne(p => p.Creator);
 
-            modelBuilder
-               .Entity<Creator>()
-               .Property(v => v.FirstName)
-               .IsRequired();
-
-            modelBuilder
-                .Entity<Creator>()
-                .HasIndex(v => v.LastName)
-                .IsUnique();
-
-            modelBuilder
-                .Entity<Creator>()
-                .HasIndex(v => v.Id)
-                .IsUnique();
-            modelBuilder
-              .Entity<BackerReward>()
-              .HasKey(op => new { op.BackerId, });
+            
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

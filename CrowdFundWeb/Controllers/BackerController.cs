@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CrowdFun.Core.data;
 using CrowdFun.Core.model;
+using CrowdFun.Core.model.services;
 using CrowFun.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,68 +10,63 @@ using Microsoft.EntityFrameworkCore;
 namespace CrowFun.web.Controllers {
     public class BackerController:Controller
     {
-        private CrowdFunDbContext context_;
-        private CrowdFun.Core.model.services.IBackerService backer_;
-        public BackerController(
-           CrowdFunDbContext context,
-           CrowdFun.Core.model.services.IBackerService backer)
+       // private CrowdFunDbContext context_;
+        private IBackerService backer_;
+
+        public BackerController(CrowdFunDbContext context)
         {
-            context_ = context;
-            backer_ = backer;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            var t = await context_
-                .Set<Backers>()
-                .Take(100)
-                .ToListAsync();
-
-            return View(t);
-        }
-
-        public IActionResult List()
-        {
-            var backerList = context_
-                .Set<Backers>()
-                .Select(c => new { c.FirstName, c.LastName,c.RewardsProject })
-                .Take(100)
-                .ToListAsync();
-
-            return Json(backerList);
+            // context_ = context;
+            backer_ = new BackerServices(context);
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public object Index()
         {
-            return View();
+            return backer_.SearchBackerId(1);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(
-                         CrowdFundWeb.Models.CreateBackerViewModel model)
-        {
-            var result = await backer_.AddBackerNewAsync(
-                model?.AddOptions);
+        //public IActionResult List()
+        //{
+        //    var backerList = context_
+        //        .Set<Backer>()
+        //        .Select(c => new { c.FirstName, c.LastName,c.RewardsProject })
+        //        .Take(100)
+        //        .ToListAsync();
 
-            if (result == null) {
-                model.ErrorText = " Something went wrong";
+        //    return Json(backerList);
+        //}
 
-                return View(model);
-            }
+        //[HttpGet]
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
-            return Ok();
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> Create(
+        //                 CrowdFundWeb.Models.CreateBackerViewModel model)
+        //{
+        //    var result = await backer_.AddBackerNewAsync(
+        //        model?.AddOptions);
 
-        [HttpPost]
-        public async Task<IActionResult> CreateBacker(
-           [FromBody]   CrowdFun.Core.model.options.AddNewBackerOptions options)
-        {
-            var result = await backer_.AddBackerNewAsync(
-                options);
+        //    if (result == null) {
+        //        model.ErrorText = " Something went wrong";
 
-            return result.AsStatusResult();
-        }
+        //        return View(model);
+        //    }
+
+        //    return Ok();
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> CreateBacker(
+        //   [FromBody]   CrowdFun.Core.model.options.AddNewBackerOptions options)
+        //{
+        //    var result = await backer_.AddBackerNewAsync(
+        //        options);
+
+        //    return result.AsStatusResult();
+       // }
 
     }
 }

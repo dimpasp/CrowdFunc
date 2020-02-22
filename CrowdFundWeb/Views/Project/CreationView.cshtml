@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewData["Title"] = "CreationView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create Project</h1>
+
+<form>
+    <div class="form-group">
+        <label>Tittle</label>
+        <input class="form-control" id="inputTitle" aria-describedby="emailHelp" placeholder="Enter title">
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <input class="form-control" id="inputDescription" placeholder="Enter description">
+    </div>
+    <div class="form-group">
+        <label>Budget</label>
+        <input class="form-control" id="inputBudget" placeholder="Enter busget">
+    </div>
+</form>
+<button id="buttonSubmit" class="btn btn-primary">Submit</button>
+
+
+@{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#buttonSubmit").click(function () {
+
+
+                //var postObject =  {
+                //        ProjectTitle: $("#inputTitle").val(),
+                //        Description: $("#inputDescription").val(),
+                //        Budget: $("#inputBudget").val()
+                //};
+
+                $.ajax({
+                    url: "https://localhost:5001/project/create?name=" +
+                          $("#inputTitle").val() + "&description=" +
+                          $("#inputDescription").val() + "&budget=" +
+                          $("#inputBudget").val(),
+                    method: "get",
+                      
+                    contentType: "application/json; charset=utf-8",
+                })
+                .done(function (response) {
+                    alert(response);
+                })
+                .fail(function () {
+                    alert("Something unexpected happened.");
+                });
+
+
+              //$.ajax({
+              //  type: "GET",
+              //  contentType: "application/json; charset=utf-8",
+              //  url: "https://localhost:5001/project/create",
+              //  dataType: "json",
+              //  data: JSON.stringify(postObject),
+              //    success: function (response) {
+              //        console.log(response)
+
+              //   }
+              //});
+
+
+
+            });
+        });
+    </script>
+}

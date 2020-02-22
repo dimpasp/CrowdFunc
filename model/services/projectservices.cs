@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CrowdFun.Core.model.options;
@@ -16,44 +17,19 @@ namespace CrowdFun.Core.model.services
         }
         public async Task<ApiResult<Project>> CreateProjectAsync( AddProjects options)
         {
-            if (options == null || options.Project_Category<=0) {
-                return new ApiResult<Project>(
-                   StatusCode.BadRequest, "Null options");
-            }
-
-            if (string.IsNullOrWhiteSpace(options.ProjectTitle) ||
-              string.IsNullOrWhiteSpace(options.Description)) {
-                return new ApiResult<Project>(
-                   StatusCode.BadRequest, "Null options");
-            }
-            if (options.Budget < 0) {
-                return new ApiResult<Project>(
-                    StatusCode.BadRequest, "Invalid project budget");
-            }
-            if (options.Creator == null) {
-                return new ApiResult<Project>(
-                    StatusCode.BadRequest, "Null creator");
-            }
-
-
             var new_project = new Project()
             {              
                 budget = options.Budget,
                 Description = options.Description,
                 Tittle = options.ProjectTitle,
-                ProjectCreator = options.Creator,
                 Photos = options.Photos,
                 Videos = options.Video,
-                Rewards = options.Rewards
-            };          
+            };       
+            
             context_.Add(new_project);
-            try {
-                await context_.SaveChangesAsync();
-            } catch (Exception ex) {
-                return new ApiResult<Project>(
-                    StatusCode.InternalServerError, "Could not save creator");
-            }
 
+            await context_.SaveChangesAsync();
+        
             return new ApiResult<Project>()
             {
                 ErrorCode = StatusCode.Ok,
@@ -111,6 +87,12 @@ namespace CrowdFun.Core.model.services
                 updproject.Videos= options.Video;
             }
 
+            if (updproject.Percentage == 0)
+                updproject.IsAvaliable = false;
+            else
+                updproject.IsAvaliable = true;
+
+
             context_.Update(updproject);
             try {
                 await context_.SaveChangesAsync();
@@ -135,6 +117,11 @@ namespace CrowdFun.Core.model.services
             api.Data = project;
             api.ErrorCode = StatusCode.Ok;
             return api;
+        }
+
+        public async Task<List<Project>> GetAvailableProjects()
+        {
+            return await context_.Projects.Where(p => p.IsAvaliable == true).ToListAsync();
         }
     }
 }

@@ -14,14 +14,15 @@ namespace CrowdFun.Core.model.services
         {
             context_ = ctx ?? throw new ArgumentNullException(nameof(ctx));
         }
-        public async Task<ApiResult<Backers>> AddBackerNewAsync(AddNewBackerOptions options)
+
+        public async Task<ApiResult<Backer>> AddBackerNewAsync(AddNewBackerOptions options)
         {
             if (options == null) {
-                return new ApiResult<Backers>(
+                return new ApiResult<Backer>(
                     StatusCode.BadRequest, "Null options");
             }
             if (options.Donate <= 0.0M) {
-                return new ApiResult<Backers>(
+                return new ApiResult<Backer>(
                     StatusCode.BadRequest, "Invalid Donate");
             }
 
@@ -29,34 +30,39 @@ namespace CrowdFun.Core.model.services
                 string.IsNullOrWhiteSpace(options.LastName) ||
                 string.IsNullOrWhiteSpace(options.Email) ||
                 string.IsNullOrWhiteSpace(options.Password)) {
-                return new ApiResult<Backers>(
+                return new ApiResult<Backer>(
                     StatusCode.BadRequest, "Null options");
             }
-            var new_backer = new Backers()
+            var new_backer = new Backer()
             {
                 FirstName = options.FirstName,
                 LastName = options.LastName,
                 Email = options.Email,
                 Donate = options.Donate              
             };
+
             context_.Add(new_backer);
-            try {
+
+            try 
+            {
+
                 await context_.SaveChangesAsync();
+
             } catch (Exception ex) {
-                return new ApiResult<Backers>(
-                    StatusCode.InternalServerError, "Could not save creator");
+
+                return new ApiResult<Backer>(StatusCode.InternalServerError, "Could not save creator");
             }
-            return new ApiResult<Backers>()
+            return new ApiResult<Backer>()
             {
                 ErrorCode = StatusCode.Ok,
                 Data = new_backer
             };
 
         }
-        public IQueryable<Backers> SearchBacker(SearchBaker options)
+        public IQueryable<Backer> SearchBacker(SearchBaker options)
         {
             var backer_ = context_
-                .Set<Backers>()
+                .Set<Backer>()
                 .AsQueryable();
 
 
@@ -82,13 +88,14 @@ namespace CrowdFun.Core.model.services
             return backer_;
         }
 
-        public Backers SearchBackerId(int id)
+        public Backer SearchBackerId(int id)
         {
             var backer_ = context_
-               .Set<Backers>()
+               .Set<Backer>()
                .SingleOrDefault(s => s.Id==id);
 
-            if (id < 0) {
+            if (id <= 0) {
+
                 return null;
             }
 

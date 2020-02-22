@@ -40,8 +40,8 @@ namespace CrowdFun.Core.model.services
 
             var reward = new Reward()
             {
-                Value = options.Amount,
-                Description = options.Description,
+            //    Value = options.Amount,
+            //    Description = options.Description,
 
 
             };
@@ -60,17 +60,17 @@ namespace CrowdFun.Core.model.services
 
             return ApiResult<Reward>.CreateSuccess(reward);
         }
-        public Reward SearchRewardById(int id)
-        {
-            if (id <= 0) {
-                return null;
-            }
-            return context_
-                .Set<Reward>()               
-                .SingleOrDefault(s => s.project.id == id);
+        //public Reward SearchRewardById(int id)
+        //{
+        //    if (id <= 0) {
+        //        return null;
+        //    }
+        //    return context_
+        //        .Set<Reward>()               
+        //        .SingleOrDefault(s => s.project.id == id);
 
 
-        }
+        //}
 
     }
 }

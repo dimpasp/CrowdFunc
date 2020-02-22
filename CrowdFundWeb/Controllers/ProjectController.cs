@@ -5,48 +5,51 @@ using System.Threading.Tasks;
 using CrowdFun.Core.data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CrowdFun.Core.data;
 using CrowdFun.Core.model;
 using CrowFun.Extensions;
+using CrowdFun.Core.model.services;
+using CrowdFun.Core.model.options;
+using Newtonsoft.Json;
 
 namespace CrowFun.web.Controllers {
     public class ProjectController : Controller
         {
-        private CrowdFunDbContext context_;
-        private CrowdFun.Core.model.services.IProjectServices project_;
-        public ProjectController(
-           CrowdFunDbContext context,
-           CrowdFun.Core.model.services.IProjectServices project)
+        private IProjectServices project_;
+
+        public ProjectController(CrowdFunDbContext context)
         {
-            context_ = context;
-            project_ = project;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            var t = await context_
-                .Set<Project>()
-                .Take(100)
-                .ToListAsync();
-
-            return View(t);
-        }
-
-        public IActionResult List()
-        {
-            var ProjectList = context_
-                .Set<Project>()
-                .Select(c => new { c.Tittle, c.id,c.Photos})
-                .Take(100)
-                .ToListAsync();
-
-            return Json(ProjectList);
+            project_ = new ProjectServices(context);
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Index()
+        {
+            var availableProjects = await project_.GetAvailableProjects();
+
+            return View(availableProjects);
+        }
+
+        [HttpGet("project/creationview")]
+        public async Task<IActionResult> CreationView()
         {
             return View();
+        }
+
+        [HttpGet("project/create")]
+        public async Task<object> CreateProject(string name, string description, decimal budget)
+        {
+            try {
+                await project_.CreateProjectAsync(new AddProjects { 
+                
+                    Budget = budget,
+                    Description = description,
+                    ProjectTitle = name  
+                });
+                return true;
+
+            } catch (Exception) {
+                return false;
+            }
         }
 
         [HttpPost]
@@ -65,16 +68,11 @@ namespace CrowFun.web.Controllers {
             return Ok();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateProject(
-           [FromBody]   CrowdFun.Core.model.options.AddProjects options)
+        public class Post
         {
-            var result = await project_.CreateProjectAsync(
-                options);
-
-            return result.AsStatusResult();
+            public string ProjectTitle { get; set; }
+            public string Description { get; set; }
         }
-
 
     }
 }
