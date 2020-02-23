@@ -42,7 +42,7 @@ namespace CrowdFun.Core.model.services
             var reward = new Reward()
             {
                 Price=options.Amount,
-                Description = options.Description
+                Title = options.Description
 
             };
 

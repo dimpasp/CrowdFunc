@@ -102,13 +102,14 @@ namespace CrowdFun.Core.model.services
            return backer_;
         }
 
-        public bool UpdateBacker(int id, UpdateBacker options)
-        { 
-            var backer = SearchBackerId(id);
-            var built = true;
-            if ((id <= 0)|| (options == null)) {
+        public bool UpdateBacker(UpdateBacker options)
+        {
+            if (options == null) {
                 return false;
             }
+
+            var backer = SearchBackerId(options.Id);
+
             if (!string.IsNullOrWhiteSpace(options.FirstName)) {
                 backer.FirstName = options.FirstName;
             }
@@ -118,16 +119,20 @@ namespace CrowdFun.Core.model.services
             if (!string.IsNullOrWhiteSpace(options.Password)) {
                 backer.Password = options.Password;
             }
-            if (options.NewDonate <= 0) {
+            if (options.NewDonate > 0) {
                 backer.Donate = options.NewDonate;
             }
-            try {
-                built = context_.SaveChanges() > 0;
+            try 
+            {
+
+                context_.SaveChanges();
             } catch (Exception ex) {
+            
                 Console.WriteLine("UPDATE FAIL" + ex);
                 return false;
             }
-            return built;
+
+            return true;
         }
     }   
  }

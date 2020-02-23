@@ -11,7 +11,7 @@ namespace CrowdFun.Core.model.services
     {
         Task<ApiResult< Backer>> AddBackerNewAsync(AddNewBackerOptions options);                                                                //Model.Options.CreateCustomerOptions options);
 
-        public bool UpdateBacker(int id, UpdateBacker options);
+        public bool UpdateBacker(UpdateBacker options);
 
         Backer SearchBackerId(int id);
 

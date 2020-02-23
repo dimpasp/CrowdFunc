@@ -31,17 +31,17 @@ namespace CrowdFun.Core.data
             base.OnModelCreating(modelBuilder);
 
             // Configure Many to Many Relationship
-            modelBuilder.Entity<Reward>().HasKey(r => new { r.BackerId, r.ProjectId });
+            //modelBuilder.Entity<Reward>().HasKey(r => new { r.BackerId, r.ProjectId });
 
-            modelBuilder.Entity<Reward>().
-                HasOne(r => r.Project).
-                WithMany(p => p.Rewards).
-                HasForeignKey(r => r.ProjectId);
+            //modelBuilder.Entity<Reward>().
+            //    HasOne(r => r.Project).
+            //    WithMany(p => p.Rewards).
+            //    HasForeignKey(r => r.ProjectId);
 
-            modelBuilder.Entity<Reward>().
-               HasOne(r => r.Backer).
-               WithMany(b => b.Rewards).
-               HasForeignKey(r => r.BackerId);
+            //modelBuilder.Entity<Reward>().
+            //   HasOne(r => r.Backer).
+            //   WithMany(b => b.Rewards).
+            //   HasForeignKey(r => r.BackerId);
 
             // Configure One to Many Relationship
             modelBuilder.
@@ -49,7 +49,18 @@ namespace CrowdFun.Core.data
                 HasMany(c => c.Projects).
                 WithOne(p => p.Creator);
 
-            
+            // Configure One to Many Relationship
+            modelBuilder.
+                Entity<Project>().
+                HasMany(p => p.Rewards).
+                WithOne(r => r.Project);
+
+            // Configure One to Many Relationship
+            modelBuilder.
+                Entity<Backer>().
+                HasMany(b => b.Rewards).
+                WithOne(r => r.Backer);
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

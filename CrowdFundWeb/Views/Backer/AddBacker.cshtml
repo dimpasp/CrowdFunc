@@ -1,0 +1,87 @@
+﻿@model CrowdFun.Core.model.Backer
+
+@{
+    ViewData["Title"] = "AddBacker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>AddBacker</h1>
+
+<h4>Backer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddBacker">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input id="fname" asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input id="lname" asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input id="email" asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input id="phone" asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input id="pass" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Donate" class="control-label"></label>
+                <input id="donate" asp-for="Donate" class="form-control" />
+                <span asp-validation-for="Donate" class="text-danger"></span>
+            </div>
+
+        </form>
+        <button id="buttonSubmit" class="btn btn-primary">Submit</button>
+
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#buttonSubmit").click(function () {
+
+                $.ajax({
+                    url: "https://localhost:5001/backer/add?firstname=" + $("#fname").val() +
+                        "&lastname=" + $("#lname").val() +
+                        "&email=" + $("#email").val() +
+                        "&phone=" + $("#phone").val() +
+                        "&password=" + $("#pass").val() +
+                        "&donate=" +$("#donate").val(),
+                    method: "get",
+                    contentType: "application/json; charset=utf-8",
+                })
+                    .done(function (response) {
+                        if (response == true)
+                            alert("Success!")
+                        else
+                            alert("Fail! Something unexpected happened.")
+                    })
+                    .fail(function () {
+                        alert("Fail! Something unexpected happened.");
+                    });
+            });
+        });
+    </script>
+}

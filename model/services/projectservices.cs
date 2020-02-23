@@ -18,12 +18,13 @@ namespace CrowdFun.Core.model.services
         public async Task<ApiResult<Project>> CreateProjectAsync( AddProjects options)
         {
             var new_project = new Project()
-            {              
+            {
+                CreatorId = 3,
                 budget = options.Budget,
                 Description = options.Description,
                 Tittle = options.ProjectTitle,
-                Photos = options.Photos,
-                Videos = options.Video,
+                DateCreated = DateTime.Now,
+                Deadline = DateTime.Now.AddDays(20)
             };       
             
             context_.Add(new_project);
@@ -109,7 +110,7 @@ namespace CrowdFun.Core.model.services
 
         public async Task<List<Project>> GetAvailableProjects()
         {
-            return await context_.Projects.Where(p => p.IsAvaliable == true || p.IsAvaliable == false).ToListAsync();
+            return await context_.Projects.ToListAsync();
         }
     }
 }

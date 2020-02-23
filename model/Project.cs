@@ -18,6 +18,7 @@ namespace CrowdFun.Core.model
         public bool IsAvaliable { get; set; }
 
         // Navigation Property
+        public int CreatorId { get; set; }
         public Creator Creator { get; set; }
 
         // Navigation property

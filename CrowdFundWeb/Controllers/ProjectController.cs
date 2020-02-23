@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CrowdFun.Core.data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CrowdFun.Core.model;
-using CrowFun.Extensions;
-using CrowdFun.Core.model.services;
 using CrowdFun.Core.model.options;
-using Newtonsoft.Json;
+using CrowdFun.Core.model.services;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CrowFun.web.Controllers {
+namespace CrowFun.web.Controllers
+{
     public class ProjectController : Controller
         {
         private IProjectServices project_;
@@ -25,8 +20,6 @@ namespace CrowFun.web.Controllers {
         public async Task<IActionResult> Index()
         {
             var availableProjects = await project_.GetAvailableProjects();
-
-            Console.WriteLine(availableProjects.Count());
 
             return View("List", availableProjects);
         }

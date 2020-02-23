@@ -4,14 +4,16 @@ using CrowdFun.Core.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CrowdFun.Core.Migrations
 {
     [DbContext(typeof(CrowdFunDbContext))]
-    partial class CrowdFunDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200223160039_ChangedDBSchemaRewards")]
+    partial class ChangedDBSchemaRewards
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +91,7 @@ namespace CrowdFun.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatorId")
+                    b.Property<int?>("CreatorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
@@ -136,9 +138,6 @@ namespace CrowdFun.Core.Migrations
                     b.Property<int>("BackerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Percentage")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -161,9 +160,7 @@ namespace CrowdFun.Core.Migrations
                 {
                     b.HasOne("CrowdFun.Core.model.Creator", "Creator")
                         .WithMany("Projects")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CreatorId");
                 });
 
             modelBuilder.Entity("CrowdFun.Core.model.Reward", b =>
