@@ -102,26 +102,14 @@ namespace CrowdFun.Core.model.services
             return true;
         }
 
-        public async Task<ApiResult<Project>> getProjectById(int id)
+        public async Task<Project> getProjectById(int id)
         {
-            if (id <= 0) {
-                return new ApiResult<Project>(
-                        StatusCode.BadRequest, "Null id");
-            }
-            var project = await context_.Set<Project>().SingleOrDefaultAsync(s => s.id == id);
-            if (project == null) {
-                return new ApiResult<Project>(
-                        StatusCode.NotFound, "Backer not found"); ;
-            }
-            var api = new ApiResult<Project>();
-            api.Data = project;
-            api.ErrorCode = StatusCode.Ok;
-            return api;
+            return await  context_.Projects.SingleOrDefaultAsync(s => s.id == id); 
         }
 
         public async Task<List<Project>> GetAvailableProjects()
         {
-            return await context_.Projects.Where(p => p.IsAvaliable == true).ToListAsync();
+            return await context_.Projects.Where(p => p.IsAvaliable == true || p.IsAvaliable == false).ToListAsync();
         }
     }
 }

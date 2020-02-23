@@ -14,6 +14,8 @@ namespace CrowdFun.Core.model.services {
         //Task<bool> UpdateStatus(int id,bool value);
         Task<List<Project>> GetAvailableProjects();
 
+        Task<Project> getProjectById(int id);
+
      }
 }
 

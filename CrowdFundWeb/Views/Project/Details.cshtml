@@ -1,0 +1,80 @@
+﻿@model CrowdFun.Core.model.Project
+
+@{
+    ViewData["Title"] = "GetDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div>
+        <br />
+        <h4 class="alert-info">Project Details</h4>
+        <hr />
+        <br />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Tittle)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Tittle)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Photos)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Photos)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.budget)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.budget)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Videos)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Videos)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Deadline)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Deadline)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Percentage)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Percentage)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IsAvaliable)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IsAvaliable)
+            </dd>
+        </dl>
+    </div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

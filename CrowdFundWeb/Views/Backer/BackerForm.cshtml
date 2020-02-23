@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewData["Title"] = "UpdateBacker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>UpdateBacker</h1>
+<form>
+    <div class="form-group">
+        <div class="form-group">
+            <label>FirstName</label>
+            <input class="form-control" id="inputFirstName" placeholder="Enter FirstName">
+            <div class="js-validation-FirstName validation-error" style="display: none">
+                Invalid FirstName
+            </div>
+        </div>
+        <div class="form-group">
+            <label>LastName</label>
+            <input class="form-control" id="inputLastName" placeholder="Enter LastName">
+            <div class="js-validation-LastName validation-error" style="display: none">
+                Invalid LastName
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input class="form-control" id="inputEmail" placeholder="Enter Email">
+                <div class="js-validation-Email validation-error" style="display: none">
+                    Invalid Email
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<button id="buttonSubmit" class="btn btn-primary">Submit</button>
+
+@*@{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#buttonSubmit").click(function () {
+
+                $.ajax({
+                    url: "https://localhost:5001/project/create?name=" +
+                          $("#inputTitle").val() + "&description=" +
+                          $("#inputDescription").val() + "&budget=" +
+                          $("#inputBudget").val(),
+                    method: "get",
+
+                    contentType: "application/json; charset=utf-8",
+                })
+                .done(function (response) {
+                    alert(response);
+                })
+                .fail(function () {
+                    alert("Something unexpected happened.");
+                });
+            });
+        });
+    </script>*@
+

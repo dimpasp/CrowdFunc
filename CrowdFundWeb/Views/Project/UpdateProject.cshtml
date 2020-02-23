@@ -1,10 +1,11 @@
 ﻿
+
 @{
-    ViewData["Title"] = "CreationView";
+    ViewData["Title"] = "UpdateProject";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create Project</h1>
+<h1>Update Project</h1>
 
 <form>
     <div class="form-group">
@@ -31,20 +32,13 @@
         $(document).ready(function () {
             $("#buttonSubmit").click(function () {
 
-
-                //var postObject =  {
-                //        ProjectTitle: $("#inputTitle").val(),
-                //        Description: $("#inputDescription").val(),
-                //        Budget: $("#inputBudget").val()
-                //};
-
                 $.ajax({
-                    url: "https://localhost:5001/project/create?name=" +
+                    url: "https://localhost:5001/project/update?name=" +
                           $("#inputTitle").val() + "&description=" +
                           $("#inputDescription").val() + "&budget=" +
                           $("#inputBudget").val(),
                     method: "get",
-                      
+
                     contentType: "application/json; charset=utf-8",
                 })
                 .done(function (response) {
@@ -53,22 +47,6 @@
                 .fail(function () {
                     alert("Something unexpected happened.");
                 });
-
-
-              //$.ajax({
-              //  type: "GET",
-              //  contentType: "application/json; charset=utf-8",
-              //  url: "https://localhost:5001/project/create",
-              //  dataType: "json",
-              //  data: JSON.stringify(postObject),
-              //    success: function (response) {
-              //        console.log(response)
-
-              //   }
-              //});
-
-
-
             });
         });
     </script>

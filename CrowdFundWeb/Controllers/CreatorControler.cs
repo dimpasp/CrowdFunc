@@ -31,17 +31,6 @@ namespace CrowFun.web.Controllers {
             return View(t);
         }
 
-        //public IActionResult List()
-        //{
-        //    var CreatorList = context_
-        //        .Set<Creator>()
-        //        .Select(c => new { c.LastName, c.Project_, c.Rewards_ })
-        //        .Take(100)
-        //        .ToListAsync();
-
-        //    return Json(CreatorList);
-        //}
-
         [HttpGet]
         public IActionResult Create()
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CrowdFun.Core.model.options;
+using Microsoft.EntityFrameworkCore;
 
 namespace CrowdFun.Core.model.services
 {
@@ -25,7 +26,7 @@ namespace CrowdFun.Core.model.services
             if (string.IsNullOrWhiteSpace(options.Description)) {
                 return new ApiResult<Reward>(
                     StatusCode.BadRequest, "Null Description");
-            }
+            }         
 
             if (options.Amount < 0.0M) {
                 return new ApiResult<Reward>(
@@ -40,9 +41,8 @@ namespace CrowdFun.Core.model.services
 
             var reward = new Reward()
             {
-            //    Value = options.Amount,
-            //    Description = options.Description,
-
+                Price=options.Amount,
+                Description = options.Description
 
             };
 
@@ -60,17 +60,55 @@ namespace CrowdFun.Core.model.services
 
             return ApiResult<Reward>.CreateSuccess(reward);
         }
-        //public Reward SearchRewardById(int id)
-        //{
-        //    if (id <= 0) {
-        //        return null;
-        //    }
-        //    return context_
-        //        .Set<Reward>()               
-        //        .SingleOrDefault(s => s.project.id == id);
 
+        public Task<ApiResult<Reward>> GetRewardByIdAsync(int id, UpdateReward options)
+        {
+            throw new NotImplementedException();
+            //if (options == null) {
+            //    return new ApiResult<Reward>
+            //       (StatusCode.BadRequest, $"null {options}");
+            //}
 
-        //}
+            //if (id < 1) {
+            //    return new ApiResult<Reward>
+            //       (StatusCode.BadRequest, $"not valid  {id}");
+            //}
 
-    }
-}
+            //var reward = await GetRewardByIdAsync(id);
+
+            //if (reward == null) {
+            //    return new ApiResult<Reward>
+            //       (StatusCode.NotFound, $"not found {reward}");
+            //}
+
+            //if (options. > 0) {
+            //    reward.Data.Amount = options.Ammount;
+            //}
+
+            //if (!string.IsNullOrWhiteSpace(options.Description)) {
+            //    reward.Data.Description = options.Description;
+            //}
+
+            //return ApiResult<Reward>.CreateSuccess(reward.Data);
+        }
+
+        public async Task<ApiResult<Reward>> UpdateRewardServiceAsync(int id, UpdateReward options)
+        {
+            if (id < 1) {
+                return new ApiResult<Reward>(
+                   StatusCode.BadRequest, $"not valid {id}");
+            }
+
+            var result = await context_
+                        .Set<Reward>()
+                        .Where(t => t.ProjectId == id)
+                        .SingleOrDefaultAsync();
+
+            if (result == null) {
+                return new ApiResult<Reward>(
+                     StatusCode.NotFound, $"this {result} dont exist");
+            }
+
+            return ApiResult<Reward>.CreateSuccess(result);
+        }
+    }  }

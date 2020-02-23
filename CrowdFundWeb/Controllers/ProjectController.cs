@@ -26,14 +26,25 @@ namespace CrowFun.web.Controllers {
         {
             var availableProjects = await project_.GetAvailableProjects();
 
-            return View(availableProjects);
+            Console.WriteLine(availableProjects.Count());
+
+            return View("List", availableProjects);
         }
 
-        [HttpGet("project/creationview")]
-        public async Task<IActionResult> CreationView()
+        [HttpGet("project/createUpdate")]
+        public async Task<IActionResult> CreateUpdate()
         {
-            return View();
+            return View("ProjectForm");
         }
+
+        [HttpGet("project/details/{id}")]
+        public async Task<IActionResult> GetDetails(int id)
+        {
+            var project = await project_.getProjectById(id);
+            Console.WriteLine( project.id);
+            return View("Details", project);
+        }
+
 
         [HttpGet("project/create")]
         public async Task<object> CreateProject(string name, string description, decimal budget)
@@ -52,27 +63,8 @@ namespace CrowFun.web.Controllers {
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(
-                         CrowdFundWeb.Models.CreateProjectViewModel model)
-        {
-            var result = await project_.CreateProjectAsync(
-                model?.Create);
-
-            if (result == null) {
-                model.ErrorText = " Something went wrong";
-
-                return View(model);
-            }
-
-            return Ok();
-        }
-
-        public class Post
-        {
-            public string ProjectTitle { get; set; }
-            public string Description { get; set; }
-        }
+       
 
     }
 }
+

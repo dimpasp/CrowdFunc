@@ -8,6 +8,8 @@ namespace CrowdFun.Core.model.services
 {
     public interface IRewardsService
     {
+        Task<ApiResult<Reward>> GetRewardByIdAsync(int id,UpdateReward options);
+        Task<ApiResult<Reward>> UpdateRewardServiceAsync(int id, UpdateReward options);
         Task<ApiResult<Reward>> CreateRewards(AddRewardsOptions options);
     }
 }
