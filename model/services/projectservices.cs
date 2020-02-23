@@ -30,7 +30,19 @@ namespace CrowdFun.Core.model.services
             context_.Add(new_project);
 
             await context_.SaveChangesAsync();
-        
+
+            if(new_project.id != 0) {
+
+                if (options.Rewards != null && options.Rewards.Count() != 0) {
+
+                    options.Rewards.ForEach(r => r.ProjectId = new_project.id);
+
+                    context_.AddRange(options.Rewards);
+                    context_.SaveChanges();
+
+                }
+            }
+            
             return new ApiResult<Project>()
             {
                 ErrorCode = StatusCode.Ok,

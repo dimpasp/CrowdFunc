@@ -17,7 +17,7 @@ namespace CrowdFun.Core.model.options {
         public decimal Budget { get; set; }
         public DateTime Deadline { get; set; }
 
-        public ICollection<Reward> Rewards { get; set; }
+        public List<Reward> Rewards { get; set; }
 
     }
 }

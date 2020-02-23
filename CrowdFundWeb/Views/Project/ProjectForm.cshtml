@@ -20,7 +20,17 @@
         <input class="form-control" id="inputBudget" placeholder="Enter busget">
     </div>
 </form>
-<button id="buttonSubmit" class="btn btn-primary">Submit</button>
+<div class="form-group">
+    <button id="reward" class="btn btn-link">Add Reward</button>
+</div>
+<div id="rewards">
+
+</div>
+<div class="form-group">
+    <button id="buttonSubmit" class="btn btn-primary">Submit</button>
+</div>
+
+
 
 
 @{
@@ -29,20 +39,96 @@
     <script>
 
         $(document).ready(function () {
+
+            var rewardCounter = 0;
+
+
+            $("#reward").click(function () {
+
+                rewardCounter = rewardCounter + 1;
+
+                var div = document.createElement("div");
+                div.className = "form-group";
+
+                var labelPrice = document.createElement("LABEL");
+                labelPrice.textContent = "Price";
+                labelPrice.style = "margin-right:1%";
+
+
+                var inputPrice = document.createElement("INPUT");
+                inputPrice.setAttribute("type", "text");
+                inputPrice.style = "margin-right:5%";
+
+                //inputPrice.className = "form-control";
+                inputPrice.id = "rewardPrice" + rewardCounter;
+
+                div.appendChild(labelPrice);
+                div.appendChild(inputPrice);
+
+                var labelPercentage = document.createElement("LABEL");
+                labelPercentage.textContent = "Percentage";
+                labelPercentage.style = "margin-right:1%";
+
+                var inputPercentage = document.createElement("INPUT");
+                inputPercentage.setAttribute("type", "text");
+                //inputPercentage.className = "form-control";
+                inputPercentage.id = "rewardPercentage" + rewardCounter;
+
+                div.appendChild(labelPercentage);
+                div.appendChild(inputPercentage);
+
+                var rewards = document.querySelector("#rewards");
+
+                rewards.appendChild(div);
+            });
+
+
+
             $("#buttonSubmit").click(function () {
+
+                var rewardsPost = [];
+
+                if (rewardCounter > 0) {
+
+                   for (i = 1; i <= rewardCounter; i++) {
+
+                       var rewardObject = {
+
+                           "price": $("#rewardPrice" + i).val(),
+                           "percentage":  $("#rewardPercentage" + i).val()
+                       }
+
+                       rewardsPost.push(rewardObject);
+                   } 
+                }
 
                 $.ajax({
                     url: "https://localhost:5001/project/create?name=" +
                         $("#inputTitle").val() + "&description=" +
                         $("#inputDescription").val() + "&budget=" +
-                        $("#inputBudget").val(),
-                    method: "get",
-
-                    contentType: "application/json; charset=utf-8",
+                        $("#inputBudget").val(), 
+                    method: "POST",
+                    data: JSON.stringify(rewardsPost),
+                    contentType:"application/json; charset=utf-8",
                 })
                     .done(function (response) {
-                        if (response == true)
-                            alert("Success!")
+                        if (response == true) {
+
+                            alert("Success");
+                             //$.ajax({
+                             //   url: "https://localhost:5001/project/createReward",
+                             //   method: "POST",
+                             //    data: JSON.stringify(rewards),
+                             //   contentType: "application/json; charset=utf-8",
+                             // })
+                             //   .done(function (response) {
+                             //       if (response == true)
+                             //           alert("Success!")
+                             //   })
+                             //   .fail(function () {
+                             //       alert("Fail! Something unexpected happened.");
+                             //   }); 
+                        }
                     })
                     .fail(function () {
                         alert("Fail! Something unexpected happened.");

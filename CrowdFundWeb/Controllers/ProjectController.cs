@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CrowdFun.Core.data;
+using CrowdFun.Core.model;
 using CrowdFun.Core.model.options;
 using CrowdFun.Core.model.services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CrowFun.web.Controllers
 {
@@ -39,25 +42,30 @@ namespace CrowFun.web.Controllers
         }
 
 
-        [HttpGet("project/create")]
-        public async Task<object> CreateProject(string name, string description, decimal budget)
+        [HttpPost("project/create")]
+        public async Task<object> CreateProject(string name, string description, decimal budget, [FromBody]dynamic rewards)
         {
+
+            var jsonString = rewards.ToString();
+
+            Console.WriteLine(jsonString);
+            List<Reward> rewardsForDb = JsonConvert.DeserializeObject<List<Reward>>(jsonString);
+
             try {
-                await project_.CreateProjectAsync(new AddProjects { 
-                
+                var prjectResult = await project_.CreateProjectAsync(new AddProjects {
+
                     Budget = budget,
                     Description = description,
-                    ProjectTitle = name  
+                    ProjectTitle = name,
+                    Rewards = rewardsForDb
                 });
+
                 return true;
 
             } catch (Exception) {
                 return false;
             }
         }
-
-       
-
     }
 }
 
