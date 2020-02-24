@@ -17,7 +17,7 @@
     </div>
     <div class="form-group">
         <label>Budget</label>
-        <input class="form-control" id="inputBudget" placeholder="Enter busget">
+        <input class="form-control" id="inputBudget" placeholder="Enter budget">
     </div>
 </form>
 <div class="form-group">
@@ -66,18 +66,18 @@
                 div.appendChild(labelPrice);
                 div.appendChild(inputPrice);
 
-                var labelPercentage = document.createElement("LABEL");
-                labelPercentage.textContent = "Percentage";
-                labelPercentage.style = "margin-right:1%";
+                var labelTitle = document.createElement("LABEL");
+                labelTitle.textContent = "Title";
+                labelTitle.style = "margin-right:1%";
                
-                var inputPercentage = document.createElement("INPUT");
-                inputPercentage.setAttribute("type", "text");
+                var inputTitle = document.createElement("INPUT");
+                inputTitle.setAttribute("type", "text");
                 //inputPercentage.className = "form-control";
-                inputPercentage.id = "rewardPercentage" + rewardCounter;
-                inputPercentage.style.backgroundColor = "lightblue";
+                inputTitle.id = "rewardPercentage" + rewardCounter;
+                inputTitle.style.backgroundColor = "lightblue";
 
-                div.appendChild(labelPercentage);
-                div.appendChild(inputPercentage);
+                div.appendChild(labelTitle);
+                div.appendChild(inputTitle);
 
                 var rewards = document.querySelector("#rewards");
 
@@ -97,7 +97,7 @@
                        var rewardObject = {
 
                            "price": parseFloat($("#rewardPrice" + i).val()),
-                           "percentage":  parseFloat($("#rewardPercentage" + i).val())
+                           "Title":  parseFloat($("#rewardTitle" + i).val())
                        }
 
                        rewardsPost.push(rewardObject);

@@ -59,8 +59,13 @@ namespace CrowdFun.Core.data
             modelBuilder.
                 Entity<Backer>()
                 .ToTable("Backer");
-                //HasMany(b => b.Rewards).
-                //WithOne(r => r.Backer);
+
+            modelBuilder
+               .Entity<BackerReward>()
+               .ToTable("BackerReward");
+            modelBuilder
+                .Entity<BackerReward>()
+                .HasKey(key => new { key.BackerId, key.RewardId});
 
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

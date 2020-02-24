@@ -15,10 +15,6 @@ namespace CrowdFun.Core.model
         public int Percentage { get; set; }
 
         // nav property 
-        //public int BackerId { get; set; }
-        //public Backer Backer { get; set; }
-
-        // nav property 
         public int ProjectId { get; set; }
         public Project Project { get; set; }
 

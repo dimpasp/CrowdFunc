@@ -102,11 +102,7 @@ namespace CrowdFun.Core.model.services
 
             if (updproject.Videos != null) {
                 updproject.Videos= options.Video;
-            }
-            ///prepei na dhlwsw rewards kai sto options
-            //if (updproject.Rewards != null) {
-            //    updproject.Rewards = options.Rewards;
-            //}
+            } 
             if (updproject.Percentage == 0)
                 updproject.IsAvailable = false;
             else

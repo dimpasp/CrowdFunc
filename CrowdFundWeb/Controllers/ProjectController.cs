@@ -40,7 +40,10 @@ namespace CrowFun.web.Controllers
             Console.WriteLine( project.id);
             return View("Details", project);
         }
-
+        public IActionResult ListPopular()
+        {
+            return View();
+        }
 
         [HttpPost("project/create")]
         public async Task<object> CreateProject(string name, string description, decimal budget,
