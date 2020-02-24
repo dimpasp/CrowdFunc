@@ -13,6 +13,7 @@ namespace CrowdFun.Core.model.options {
         public DateTime Deadline { get; set; }
         public string Photo { get; set; }
         public string Video { get; set; }
+
         public ProjectsCategory ProjectCategory { get; set; }
     }
 }

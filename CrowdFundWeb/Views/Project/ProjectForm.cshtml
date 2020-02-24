@@ -58,6 +58,7 @@
                 var inputPrice = document.createElement("INPUT");
                 inputPrice.setAttribute("type", "text");
                 inputPrice.style = "margin-right:5%";
+                inputPrice.style.backgroundColor = "lightblue"; 
 
                 //inputPrice.className = "form-control";
                 inputPrice.id = "rewardPrice" + rewardCounter;
@@ -68,11 +69,12 @@
                 var labelPercentage = document.createElement("LABEL");
                 labelPercentage.textContent = "Percentage";
                 labelPercentage.style = "margin-right:1%";
-
+               
                 var inputPercentage = document.createElement("INPUT");
                 inputPercentage.setAttribute("type", "text");
                 //inputPercentage.className = "form-control";
                 inputPercentage.id = "rewardPercentage" + rewardCounter;
+                inputPercentage.style.backgroundColor = "lightblue";
 
                 div.appendChild(labelPercentage);
                 div.appendChild(inputPercentage);

@@ -64,32 +64,6 @@ namespace CrowdFun.Core.model.services
         public Task<ApiResult<Reward>> GetRewardByIdAsync(int id, UpdateReward options)
         {
             throw new NotImplementedException();
-            //if (options == null) {
-            //    return new ApiResult<Reward>
-            //       (StatusCode.BadRequest, $"null {options}");
-            //}
-
-            //if (id < 1) {
-            //    return new ApiResult<Reward>
-            //       (StatusCode.BadRequest, $"not valid  {id}");
-            //}
-
-            //var reward = await GetRewardByIdAsync(id);
-
-            //if (reward == null) {
-            //    return new ApiResult<Reward>
-            //       (StatusCode.NotFound, $"not found {reward}");
-            //}
-
-            //if (options. > 0) {
-            //    reward.Data.Amount = options.Ammount;
-            //}
-
-            //if (!string.IsNullOrWhiteSpace(options.Description)) {
-            //    reward.Data.Description = options.Description;
-            //}
-
-            //return ApiResult<Reward>.CreateSuccess(reward.Data);
         }
 
         public async Task<ApiResult<Reward>> UpdateRewardServiceAsync(int id, UpdateReward options)

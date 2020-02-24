@@ -103,7 +103,10 @@ namespace CrowdFun.Core.model.services
             if (updproject.Videos != null) {
                 updproject.Videos= options.Video;
             }
-
+            ///prepei na dhlwsw rewards kai sto options
+            //if (updproject.Rewards != null) {
+            //    updproject.Rewards = options.Rewards;
+            //}
             if (updproject.Percentage == 0)
                 updproject.IsAvailable = false;
             else
@@ -121,7 +124,9 @@ namespace CrowdFun.Core.model.services
 
         public async Task<Project> getProjectById(int id)
         {
-            return await  context_.Projects.SingleOrDefaultAsync(s => s.id == id); 
+            return await context_.Projects
+                .Include(p => p.Rewards)
+                .SingleOrDefaultAsync(s => s.id == id);
         }
 
         public async Task<List<Project>> GetAvailableProjects()
