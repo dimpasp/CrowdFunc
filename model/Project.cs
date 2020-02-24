@@ -15,7 +15,7 @@ namespace CrowdFun.Core.model
         public DateTime DateCreated { get; set; }
         public DateTime Deadline { get; set; }
         public int Percentage { get; set; }
-        public bool IsAvaliable { get; set; }
+        public bool IsAvailable { get; set; }
 
         // Navigation Property
         public int CreatorId { get; set; }

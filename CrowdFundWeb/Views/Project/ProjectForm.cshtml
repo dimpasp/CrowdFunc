@@ -84,8 +84,8 @@
 
 
 
-            $("#buttonSubmit").click(function () {
-
+            $("#buttonSubmit").one('click', function (event) {
+                event.preventDefault();
                 var rewardsPost = [];
 
                 if (rewardCounter > 0) {
@@ -115,24 +115,13 @@
                         if (response == true) {
 
                             alert("Success");
-                             //$.ajax({
-                             //   url: "https://localhost:5001/project/createReward",
-                             //   method: "POST",
-                             //    data: JSON.stringify(rewards),
-                             //   contentType: "application/json; charset=utf-8",
-                             // })
-                             //   .done(function (response) {
-                             //       if (response == true)
-                             //           alert("Success!")
-                             //   })
-                             //   .fail(function () {
-                             //       alert("Fail! Something unexpected happened.");
-                             //   }); 
+                          
                         }
                     })
                     .fail(function () {
                         alert("Fail! Something unexpected happened.");
                     });
+                $(this).prop('disabled', true);
             });
         });
     </script>

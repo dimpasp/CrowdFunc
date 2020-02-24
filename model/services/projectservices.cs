@@ -19,7 +19,7 @@ namespace CrowdFun.Core.model.services
         {
             var new_project = new Project()
             {
-                CreatorId = 3,
+                CreatorId = 2,
                 budget = options.Budget,
                 Description = options.Description,
                 Tittle = options.ProjectTitle,
@@ -105,9 +105,9 @@ namespace CrowdFun.Core.model.services
             }
 
             if (updproject.Percentage == 0)
-                updproject.IsAvaliable = false;
+                updproject.IsAvailable = false;
             else
-                updproject.IsAvaliable = true;
+                updproject.IsAvailable = true;
 
 
             context_.Update(updproject);
