@@ -31,7 +31,7 @@ namespace CrowdFun.Core.model
             DateCreated = DateTime.Today;
             Deadline = DateTime.Today.AddDays(25);
             //Media = new List<string>();
-            //Rewards= new List<Reward>();
+            Rewards= new List<Reward>();
             //Status = new List<Status>();
         }
     }

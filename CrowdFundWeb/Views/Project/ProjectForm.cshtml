@@ -94,14 +94,14 @@
 
                        var rewardObject = {
 
-                           "price": $("#rewardPrice" + i).val(),
-                           "percentage":  $("#rewardPercentage" + i).val()
+                           "price": parseFloat($("#rewardPrice" + i).val()),
+                           "percentage":  parseFloat($("#rewardPercentage" + i).val())
                        }
 
                        rewardsPost.push(rewardObject);
                    } 
                 }
-
+                debugger;
                 $.ajax({
                     url: "https://localhost:5001/project/create?name=" +
                         $("#inputTitle").val() + "&description=" +

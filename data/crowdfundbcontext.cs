@@ -57,9 +57,10 @@ namespace CrowdFun.Core.data
 
             // Configure One to Many Relationship
             modelBuilder.
-                Entity<Backer>().
-                HasMany(b => b.Rewards).
-                WithOne(r => r.Backer);
+                Entity<Backer>()
+                .ToTable("Backer");
+                //HasMany(b => b.Rewards).
+                //WithOne(r => r.Backer);
 
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

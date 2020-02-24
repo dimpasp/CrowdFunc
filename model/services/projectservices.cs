@@ -25,23 +25,27 @@ namespace CrowdFun.Core.model.services
                 Tittle = options.ProjectTitle,
                 DateCreated = DateTime.Now,
                 Deadline = DateTime.Now.AddDays(20)
-            };       
-            
+            };
+
+            new_project.Rewards.AddRange(options.Rewards);
             context_.Add(new_project);
-
-            await context_.SaveChangesAsync();
-
-            if(new_project.id != 0) {
-
-                if (options.Rewards != null && options.Rewards.Count() != 0) {
-
-                    options.Rewards.ForEach(r => r.ProjectId = new_project.id);
-
-                    context_.AddRange(options.Rewards);
-                    context_.SaveChanges();
-
-                }
+            try {
+                await context_.SaveChangesAsync();
+            } catch(Exception e) {
+                Console.WriteLine(e);
             }
+
+            //if(new_project.id != 0) {
+
+            //    if (options.Rewards != null && options.Rewards.Count() != 0) {
+
+            //        options.Rewards.ForEach(r => r.ProjectId = new_project.id);
+
+            //        context_.AddRange(options.Rewards);
+            //        context_.SaveChanges();
+
+            //    }
+            //}
             
             return new ApiResult<Project>()
             {

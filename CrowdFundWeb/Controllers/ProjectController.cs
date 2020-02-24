@@ -43,21 +43,18 @@ namespace CrowFun.web.Controllers
 
 
         [HttpPost("project/create")]
-        public async Task<object> CreateProject(string name, string description, decimal budget, [FromBody]dynamic rewards)
+        public async Task<object> CreateProject(string name, string description, decimal budget,
+            [FromBody]List<Reward> rewards)
         {
 
-            var jsonString = rewards.ToString();
-
-            Console.WriteLine(jsonString);
-            List<Reward> rewardsForDb = JsonConvert.DeserializeObject<List<Reward>>(jsonString);
-
+          
             try {
                 var prjectResult = await project_.CreateProjectAsync(new AddProjects {
 
                     Budget = budget,
                     Description = description,
                     ProjectTitle = name,
-                    Rewards = rewardsForDb
+                    Rewards = rewards
                 });
 
                 return true;

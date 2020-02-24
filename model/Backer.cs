@@ -17,7 +17,7 @@ namespace CrowdFun.Core.model
         public decimal Donate { get; set; }
 
         // Navigation Property
-        public List<Reward> Rewards { get; set; }
+        //public List<Reward> Rewards { get; set; }
  
     }
 }
