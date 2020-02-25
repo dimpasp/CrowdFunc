@@ -16,7 +16,7 @@ namespace CrowdFun.Core.model.services
         }
         public async Task<ApiResult<Creator>> CreateNewCreatorAsync(AddNewCreatorOptions options)
         {
-            //kai enan elegxo na kanw gia an uparxei
+           
             if (options == null) {
                 return new ApiResult<Creator>(
                     StatusCode.BadRequest, "Null options");
@@ -114,7 +114,7 @@ namespace CrowdFun.Core.model.services
                 creator.Password = options.Password;
             }
             if (creator == null) {
-                //elegxo gia ton creator
+                
             }
 
             var UpdProjectCreator = context_.Set<Creator>().SingleOrDefault(p => p.Id == id);

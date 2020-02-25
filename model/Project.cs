@@ -24,15 +24,11 @@ namespace CrowdFun.Core.model
         // Navigation property
         public List<Reward> Rewards { get; set; }
 
-        //public ICollection<string> Media { get; set; }
-
         public Project()
         {
             DateCreated = DateTime.Today;
             Deadline = DateTime.Today.AddDays(25);
-            //Media = new List<string>();
             Rewards= new List<Reward>();
-            //Status = new List<Status>();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace CrowdFun.Core.model.options
 {
     public class AddStatusOptions
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         
         public Project project { get; set; }
         
