@@ -34,18 +34,6 @@ namespace CrowdFun.Core.model.services
             } catch(Exception e) {
                 Console.WriteLine(e);
             }
-
-            //if(new_project.id != 0) {
-
-            //    if (options.Rewards != null && options.Rewards.Count() != 0) {
-
-            //        options.Rewards.ForEach(r => r.ProjectId = new_project.id);
-
-            //        context_.AddRange(options.Rewards);
-            //        context_.SaveChanges();
-
-            //    }
-            //}
             
             return new ApiResult<Project>()
             {
@@ -57,6 +45,7 @@ namespace CrowdFun.Core.model.services
         {
             var project_ = context_
                 .Set<Project>()
+                .Include(p => p.Rewards)
                 .AsQueryable();
 
             if (options == null) {
@@ -65,10 +54,10 @@ namespace CrowdFun.Core.model.services
 
             if (!string.IsNullOrWhiteSpace(options.Title)) {
                 project_ = project_.Where(p =>
-                    p.Tittle== options.Title);
+                    p.Tittle.Contains(options.Title));
             }
 
-            if (options.Id <= 0) {
+            if (options.Id > 0) {
                 project_ = project_.Where(p =>
                     p.id == options.Id);
             }
@@ -118,11 +107,27 @@ namespace CrowdFun.Core.model.services
             return true;
         }
 
-        public async Task<Project> getProjectById(int id)
+        public async Task<ApiResult<Project>> getProjectById(int id)
         {
-            return await context_.Projects
-                .Include(p => p.Rewards)
-                .SingleOrDefaultAsync(s => s.id == id);
+            if (id <= 0) {
+                return new ApiResult<Project>(
+                    StatusCode.BadRequest,
+                    $"{id} cannot be equal to or less than 0");
+            }
+            var project = await SearchProject(new SearchProjects()
+            {
+                Id = id
+            }).SingleOrDefaultAsync();
+
+            if (project == null) {
+                return new ApiResult<Project>(
+                    StatusCode.NotFound,
+                    $"Project not found in database");
+            }
+
+            return ApiResult<Project>.CreateSuccess(project);
+
+
         }
 
         public async Task<List<Project>> GetAvailableProjects()

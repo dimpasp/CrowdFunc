@@ -12,6 +12,7 @@ namespace CrowFun.web.Controllers
 {
     public class ProjectController : Controller
         {
+        private readonly IRewardsService incentives_;
         private IProjectServices project_;
 
         public ProjectController(CrowdFunDbContext context)
@@ -37,12 +38,23 @@ namespace CrowFun.web.Controllers
         public async Task<IActionResult> GetDetails(int id)
         {
             var project = await project_.getProjectById(id);
-            Console.WriteLine( project.id);
-            return View("Details", project);
+
+            return View("Details", project.Data);
         }
         public IActionResult ListPopular()
         {
             return View();
+        }
+        [HttpGet("project/getbyid/{id}")]
+        public async Task<IActionResult> GetProjectById(int id)
+        {
+            var project = await project_.getProjectById(id);
+
+            return Json(project.Data,
+                new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
         }
 
         [HttpPost("project/create")]
@@ -65,6 +77,12 @@ namespace CrowFun.web.Controllers
             } catch (Exception) {
                 return false;
             }
+        }
+        [HttpPost("project/AddProjectIncentive/{projectId}")]
+        public IActionResult AddProjectIncentive(int projectId,
+         [FromBody] AddRewardsOptions options)
+        {
+            return Ok();
         }
     }
 }

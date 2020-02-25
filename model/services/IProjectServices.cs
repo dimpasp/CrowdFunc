@@ -11,11 +11,8 @@ namespace CrowdFun.Core.model.services {
         IQueryable<Project> SearchProject(SearchProjects options);
         Task<bool> UpdateProject(int id, UpdateProjectsOptions options);
         Task<ApiResult<Project>> CreateProjectAsync(AddProjects  options);
-        //Task<bool> UpdateStatus(int id,bool value);
         Task<List<Project>> GetAvailableProjects();
-
-        Task<Project> getProjectById(int id);
-
+        Task<ApiResult<Project>> getProjectById(int projectId);
      }
 }
 
