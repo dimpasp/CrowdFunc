@@ -5,9 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>AddBacker</h1>
+<h1>New Acount</h1>
 
-<h4>Backer</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -48,11 +47,15 @@
         <button id="buttonSubmit" class="btn btn-primary">Submit</button>
 
     </div>
+    <div class="col-md-8">
+        <img class="col col-md-12" style="width:800px;height:500px;" src="~/images/profile.png">Upload a Photo
+    </div>
 </div>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
 
 @{
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -68,7 +71,7 @@
                         "&email=" + $("#email").val() +
                         "&phone=" + $("#phone").val() +
                         "&password=" + $("#pass").val() +
-                        "&donate=" +$("#donate").val(),
+                        "&donate=" + $("#donate").val(),
                     method: "get",
                     contentType: "application/json; charset=utf-8",
                 })
